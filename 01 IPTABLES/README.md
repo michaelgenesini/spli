@@ -34,7 +34,6 @@ The packet continues to traverse the chain until either a rule matches the packe
 
 Targets also return a verdict like `ACCEPT` (NAT modules will do this) or `DROP` (e.g. the REJECT module), but may also imply `CONTINUE ` (e.g. the LOG module; CONTINUE is an internal name) to continue with the next rule as if no target/verdict was specified at all.
 
----
 ## Overview
 The packet filter framework on Linux is divided into two parts:
 
