@@ -53,18 +53,22 @@ Full matching on IP, TCP, UDP and ICMP.
  - Insertion poin
  - Match
  - Target 
+
 ### STATEFUL FIREWALLING
 Full state matching: TCP, UDP and ICMP.
 Other protocols.
- Uses generic connection tracking module.
+Uses generic connection tracking module.
+
 ##### USERLAND STATES:
  
  - NEW
  - ESTABLISHED
  - RELATED
  - INVALID
+
 ### NAT
 	The science of switching Source or Destination Addresses
+
 ### PACKET MANLING
 Mangling packets going through the firewall
 Examples:
