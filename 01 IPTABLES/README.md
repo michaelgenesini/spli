@@ -69,7 +69,7 @@ Uses generic connection tracking module.
 ### NAT
 	The science of switching Source or Destination Addresses
 
-### PACKET MANLING
+### PACKET MANGLING
 Mangling packets going through the firewall
 Examples:
  
