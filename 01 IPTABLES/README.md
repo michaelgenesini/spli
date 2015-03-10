@@ -95,3 +95,7 @@ Examples:
 ---
 
 ![netfilter-srchitecture-1](http://debian-handbook.info/browse/it-IT/stable/images/netfilter.png)
+
+---
+
+![netfilter-architecture-3](https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg)
