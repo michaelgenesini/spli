@@ -90,12 +90,4 @@ Examples:
 
 ## Netfilter Architecture
 
-![netfilter-architecture](http://flylib.com/books/3/475/1/html/2/images/0131777203/graphics/19fig03.gif)
-
----
-
-![netfilter-srchitecture-1](http://debian-handbook.info/browse/it-IT/stable/images/netfilter.png)
-
----
-
 ![netfilter-architecture-3](https://www.frozentux.net/iptables-tutorial/images/tables_traverse.jpg)
