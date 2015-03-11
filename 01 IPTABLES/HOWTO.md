@@ -4,15 +4,10 @@
 
  - set the network adapter to **BRIDGE** instead of NAT
  - run the following comand to enable forwarding of packets
- ```
- 	$ sysctl -w net.ipv4.ip_forward=1
- ```
- - prepare a *sh* file with all the iptables rules like the following
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+```shell
+$ sysctl -w net.ipv4.ip_forward=1
 ```
+ - prepare a *sh* file with all the iptables rules like the following
 ```shell
 #!/bin/bash
 iptables -F
