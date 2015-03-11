@@ -4,9 +4,9 @@
 
  - set the network adapter to **BRIDGE** instead of NAT
  - run the following comand to enable forwarding of packets
- 	```shel
-	$ sysctl -w net.ipv4.ip_forward=1
- 	```
+ ```shell
+ $ sysctl -w net.ipv4.ip_forward=1
+ ```
  - prepare a *sh* file with all the iptables rules like the following
  	```shell
 		#!/bin/bash
@@ -22,6 +22,6 @@
 ### TCPDUMP
 List the traffic to see all packets through your station
 
-```shel
+```shell
 $ sudo tcpdump -n -i eth0 host YourIP
 ```
