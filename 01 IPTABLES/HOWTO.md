@@ -8,13 +8,18 @@
  	$ sysctl -w net.ipv4.ip_forward=1
  ```
  - prepare a *sh* file with all the iptables rules like the following
- 	```
-		#!/bin/bash
-		iptables -F
-		iptables -t nat -F
-		iptables -t nat -A PREROUTING -d .....
-		...
- 	```
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+```shell
+#!/bin/bash
+iptables -F
+iptables -t nat -F
+iptables -t nat -A PREROUTING -d .....
+...
+ ```
  - launch your script `$ sudo file.sh`
  - verify your iptable configuration `$ sudo iptables -L`
 
