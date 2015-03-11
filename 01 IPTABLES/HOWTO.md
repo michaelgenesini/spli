@@ -15,7 +15,7 @@ iptables -t nat -F
 iptables -t nat -A PREROUTING -d .....
 ...
  ```
- - launch your script `$ sudo file.sh`
+ - run your script `$ sudo file.sh`
  - verify your iptable configuration `$ sudo iptables -L`
 
 
