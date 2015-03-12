@@ -19,9 +19,24 @@
  - verify your iptable configuration `$ sudo iptables -L`
 
 
+#### Network configuration without Dildo
+
+ Create an HotSpot network with manual IPv4 configuration, netmask 255.255.255.0, static IP adress (e.g. 10.10.10.10) and specify the router IP (e.g. 10.10.10.1)
+
 ### TCPDUMP
 List the traffic to see all packets through your station
 
 ```shel
-$ sudo tcpdump -n -i eth0 host YourIP
+$ sudo tcpdump -n -i Interface host YourIP
+```
+
+Listen only icmp traffic
+
+```shel
+$ sudo tcpdump -n -i Interface icmp
+```
+
+
+```shel
+$ sudo tcpdump -i Interface dst YuorIP
 ```

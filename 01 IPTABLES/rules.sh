@@ -5,6 +5,13 @@
 
 echo 'Ciao Bel'
 
+stagni 	=		10.42.0.34
+marci 	=		10.42.0.54
+pedro 	=		10.42.0.1
+mike 	=		10.42.0.51
+
+router 	=		$pedro
+
 iptables -F
 iptables -X
 iptables -Z
