@@ -5,18 +5,20 @@
 
 echo 'Ciao Bel'
 
-dafault="10.10.10."
+default="10.10.10."
 mike=$default"20"
-marco=$default"X"
+marco=$default"30"
 marci=$default"Y"
 pedro=$default"Z"
 router=$default"10"
 
+trusted=""
+
 # External Public Interface
-EXTIN="eth0"
+EXTIF="eth0"
 
 # Internal Private Interface
-INTIN="wlan0"
+INTIF="wlan0"
 
 # Internal IPs
 INTIPS=$default"0/24"
@@ -28,17 +30,19 @@ iptables -t nat -F
 iptables -t nat -X
 iptables -t mangle -F
 iptables -t mangle -X
+iptables -t nat -P PREROUTING ACCEPT
+iptables -t nat -P POSTROUTING ACCEPT
 iptables -P INPUT ACCEPT
 iptables -P OUTPUT ACCEPT
 iptables -P FORWARD ACCEPT
 
-
- 
-# 10.10.10.X pinga 10.10.10.139
-# 10.10.10.X vede che il ping e tra lui e 10.10.10.214
+# SISTEMARE IP
 #
-#iptables -t nat -A PREROUTING -i wlan0 -p tcp --dport 80 -d 10.10.10.11 -s 10.10.10.0/24 -j DNAT --to-destination 10.10.10.1:8000
-#iptables -t nat -A PREROUTING -i wlan0 -p tcp --dport 80 -j DNAT --to-destination 10.10.10.1:80
+# Nella rete interna tutte le chiamate sulla porta 80 al router vengono
+# ridirezionate sulla porta 8000 a Marco che ha un servizio che deve essere
+# accessibile a tutta la rete interna
+#
+iptables -t nat -A PREROUTING -i $INTIF -p tcp --dport 80 -d $router -s $INTIPS -j DNAT --to-destination $marco:8000
 
 
 # 10.10.10.139 pinga 10.10.10.X
@@ -54,10 +58,13 @@ iptables -P FORWARD ACCEPT
 #iptables -P INPUT DROP
 #iptables -A INPUT -s 10.10.10.9 -j ACCEPT
 #
-#Droppo tutto tranne quello che esce dalla porta 80
-#
-#iptables -P OUTPUT DROP
-#iptables
+
+
+
+#iptables -A INPUT -i $INTIF -s $INTIPS -j LOG --log-prefix "IP_SPOOF A: "
+#iptables -A INPUT -i $INTIF -s $INTIPS -j DROP
+
+iptables -A OUTPUT -p tcp -d www.facebook.com -j DROP
 
 iptables -A FORWARD -i $INTIF -o $EXTIF -j ACCEPT
 
