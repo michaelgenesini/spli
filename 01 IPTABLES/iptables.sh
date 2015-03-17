@@ -12,7 +12,7 @@ marci=$default"Y"
 pedro=$default"Z"
 router=$default"10"
 
-mikeMac="54:26:96:db:a4:ad"
+mikeMac="x:x:x:x:x"
 
 trusted=""
 
