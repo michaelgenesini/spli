@@ -12,6 +12,8 @@ marci=$default"Y"
 pedro=$default"Z"
 router=$default"10"
 
+mikeMac="54:26:96:db:a4:ad"
+
 trusted=""
 
 # External Public Interface
@@ -59,12 +61,11 @@ iptables -t nat -A PREROUTING -i $INTIF -p tcp --dport 80 -d $router -s $INTIPS 
 #iptables -A INPUT -s 10.10.10.9 -j ACCEPT
 #
 
+#iptables -A OUTPUT -p tcp -d "www.facebook.com" -j DROP
 
-
-#iptables -A INPUT -i $INTIF -s $INTIPS -j LOG --log-prefix "IP_SPOOF A: "
-#iptables -A INPUT -i $INTIF -s $INTIPS -j DROP
-
-iptables -A OUTPUT -p tcp -d www.facebook.com -j DROP
+iptables -A INPUT -i $INTIF -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i $EXTIF -p tcp --dport 22 -m mac --mac-source $mikeMac -j ACCEPT
+iptables -A OUTPUT -o $INTIF -p tcp --dport 22 -m state --state ESTABLISHED -j ACCEPT
 
 iptables -A FORWARD -i $INTIF -o $EXTIF -j ACCEPT
 
