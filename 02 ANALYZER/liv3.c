@@ -13,7 +13,8 @@ void liv3(u_int type,const u_char *p) {
   switch(type) {
     // IPv4
     case 0x800:
-      if(!r_ipv4) return;    
+      if(!r_ipv4)
+        return;    
       flag=0;
       for(aux_ipv4=filt_ipv4;aux_ipv4!=NULL;aux_ipv4=aux_ipv4->next) {
         i=aux_ipv4->scid;
@@ -54,7 +55,8 @@ void liv3(u_int type,const u_char *p) {
         myprintf(" -> ");
         print_ipv4(p+16);
         myprintf(" Id:%d Ttl:%d Proto:%d Len:%d",id,ttl,proto,len);
-        if(fragm&0x4000) myprintf(" DF");
+        if(fragm&0x4000)
+          myprintf(" DF");
         myprintf(" Fragm:%d%c\n",fragm&0x1fff,(fragm&0x2000)?'M':'F');
       }
       if(flag) {
@@ -65,7 +67,8 @@ void liv3(u_int type,const u_char *p) {
       return;
     // IP v6
     case 0x86dd:
-      if(!r_ipv6) return;    
+      if(!r_ipv6)
+        return;    
       flag=0;
       for(aux_ipv6=filt_ipv6;aux_ipv6!=NULL;aux_ipv6=aux_ipv6->next) {
         i=aux_ipv6->scid;

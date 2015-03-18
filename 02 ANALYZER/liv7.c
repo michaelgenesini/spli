@@ -16,7 +16,8 @@ void liv7(u_int len,const u_char *p) {
     else
       fprintf(mem,".");
     p++;
-    if((i%70)==0) myprintf("\n     |");
+    if((i%70)==0)
+      myprintf("\n     |");
   }
   myprintf("\n");
   fflush(mem);

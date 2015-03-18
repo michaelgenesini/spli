@@ -38,13 +38,20 @@ void liv4(u_int type,u_int len,const u_char *p) {
         myprintf("TCP  |");
         myprintf("%d -> %d",ssap,dsap);
         myprintf(" Seq:%lu",seq_num);
-        if(ff&0x20) myprintf(" URG:%d",urg);
-        if(ff&0x10) myprintf(" ACK:%lu",ack_num);
-        if(ff&0x08) myprintf(" PSH");
-        if(ff&0x04) myprintf(" RST");
-        if(ff&0x02&&ack_num==0) myprintf(" REQ");
-        if(ff&0x02&&ack_num==1) myprintf(" ACP");
-        if(ff&0x01) myprintf(" FIN");
+        if(ff&0x20)
+          myprintf(" URG:%d",urg);
+        if(ff&0x10)
+          myprintf(" ACK:%lu",ack_num);
+        if(ff&0x08)
+          myprintf(" PSH");
+        if(ff&0x04)
+          myprintf(" RST");
+        if(ff&0x02&&ack_num==0)
+          myprintf(" REQ");
+        if(ff&0x02&&ack_num==1)
+          myprintf(" ACP");
+        if(ff&0x01)
+          myprintf(" FIN");
         myprintf("\n");
       }
       if(flag) {
@@ -55,7 +62,8 @@ void liv4(u_int type,u_int len,const u_char *p) {
       return;
 
     case 17:
-      if(!r_udp) return;  
+      if(!r_udp)
+        return;  
       ssap=ntohs(*(u_int *)p);
       dsap=ntohs(*(u_int *)(p+2));
       flag=0;
@@ -85,41 +93,42 @@ void liv4(u_int type,u_int len,const u_char *p) {
       return;
 
     case 2:
-      if(!p_igmp) return;  
+      if(!p_igmp)
+        return;  
       colore(4);
       myprintf("IGMP |");
       switch((*p)) {
-      case 0x11:
-        myprintf("Query ");
-        print_ipv4(p+4);
-        break;
-      case 0x12:
-        myprintf("Report ");
-        print_ipv4(p+4);
-        break;
-      case 0x16:
-        myprintf("Nreport ");
-        print_ipv4(p+4);
-        break;
-      case 0x17: 
-        myprintf("Leave ");
-        print_ipv4(p+4);
-        break;
-      case 0x13:
-        myprintf("DVMRP ** ");
-        break;
-      case 0x14:
-        myprintf("PIM ** ");
-        break;
-      case 0x1e:
-        myprintf("MRESP ** ");
-        break;
-      case 0x1f:
-        myprintf("MTRACE ** ");
-        break;
-      default:
-        unknown=1;
-        return;
+        case 0x11:
+          myprintf("Query ");
+          print_ipv4(p+4);
+          break;
+        case 0x12:
+          myprintf("Report ");
+          print_ipv4(p+4);
+          break;
+        case 0x16:
+          myprintf("Nreport ");
+          print_ipv4(p+4);
+          break;
+        case 0x17: 
+          myprintf("Leave ");
+          print_ipv4(p+4);
+          break;
+        case 0x13:
+          myprintf("DVMRP ** ");
+          break;
+        case 0x14:
+          myprintf("PIM ** ");
+          break;
+        case 0x1e:
+          myprintf("MRESP ** ");
+          break;
+        case 0x1f:
+          myprintf("MTRACE ** ");
+          break;
+        default:
+          unknown=1;
+          return;
       }    
      
       myprintf("\n");
@@ -150,7 +159,7 @@ void liv4(u_int type,u_int len,const u_char *p) {
       myprintf("\n");
       decoded=1;
       return;
-      
+
     default:
       unknown=1;
       return;
