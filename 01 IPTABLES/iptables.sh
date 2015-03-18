@@ -11,7 +11,7 @@ marco=$default"40"
 marci=$default"50"
 pedro=$default"30"
 router=$default"10"
-mikeMac="54:26:96:db:a4:ad"
+mikeMac="x:x:x:x:x:x"
 openPorts="80,443,9091"
 mailPorts="143,993,110,995,25"
 
