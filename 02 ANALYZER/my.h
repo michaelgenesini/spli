@@ -13,7 +13,7 @@ void liv3(u_int,const u_char *);
 void liv2(u_char *,const struct pcap_pkthdr *,const u_char *);
 void colore(int);
 void o_colore(int);
-void myprintf(const char *, ...);
+//void printf(const char *, ...);
 void print_ipv4(const u_char *);
 void print_ipv6(const u_char *);
 void print_liv2(const u_char *);

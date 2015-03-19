@@ -50,14 +50,14 @@ void liv3(u_int type,const u_char *p) {
       fragm=ntohs(*(u_int *)(p+6));
       if(p_ipv4) {
         colore(3);
-        myprintf("IPv4 |");
+        printf("IPv4 |");
         print_ipv4(p+12);
-        myprintf(" -> ");
+        printf(" -> ");
         print_ipv4(p+16);
-        myprintf(" Id:%d Ttl:%d Proto:%d Len:%d",id,ttl,proto,len);
+        printf(" Id:%d Ttl:%d Proto:%d Len:%d",id,ttl,proto,len);
         if(fragm&0x4000)
-          myprintf(" DF");
-        myprintf(" Fragm:%d%c\n",fragm&0x1fff,(fragm&0x2000)?'M':'F');
+          printf(" DF");
+        printf(" Fragm:%d%c\n",fragm&0x1fff,(fragm&0x2000)?'M':'F');
       }
       if(flag) {
         filt_kill=1;
@@ -102,11 +102,11 @@ void liv3(u_int type,const u_char *p) {
       len=ntohs(*(u_int *)(p+4));
       if(p_ipv6) {
         colore(3);
-        myprintf("IPv6 |");
+        printf("IPv6 |");
         print_ipv6(p+8);
-        myprintf(" -> ");
+        printf(" -> ");
         print_ipv6(p+24);
-        myprintf(" Proto:%d Hop:%d Len:%d Flow:%ld\n",proto,ttl,len,flow);
+        printf(" Proto:%d Hop:%d Len:%d Flow:%ld\n",proto,ttl,len,flow);
       }
       if(flag) {
         filt_kill=1;
@@ -118,30 +118,30 @@ void liv3(u_int type,const u_char *p) {
     case 0x0806:
       if(!p_arp) return;
       colore(3);
-      myprintf("ARP  |");
+      printf("ARP  |");
       switch(htons(*(u_int *)(p+6))) {
         case 1:
-          myprintf("Request   ");
+          printf("Request   ");
           break;
         case 2:
-          myprintf("Reply     ");
+          printf("Reply     ");
           break;
         case 3:
-          myprintf("R_Request ");
+          printf("R_Request ");
           break;
         case 4:
-          myprintf("R_Reply   ");
+          printf("R_Reply   ");
           break;
       }
-      myprintf(" ");
+      printf(" ");
       print_liv2(p+8);
-      myprintf(" -> ");
+      printf(" -> ");
       print_liv2(p+18);
-      myprintf(" ");
+      printf(" ");
       print_ipv4(p+14);
-      myprintf(" -> ");
+      printf(" -> ");
       print_ipv4(p+24);
-      myprintf("\n");
+      printf("\n");
       decoded=1;
       return;
 

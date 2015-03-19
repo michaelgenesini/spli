@@ -35,24 +35,24 @@ void liv4(u_int type,u_int len,const u_char *p) {
       ff=*(p+13);
       if(p_tcp) {
         colore(4);
-        myprintf("TCP  |");
-        myprintf("%d -> %d",ssap,dsap);
-        myprintf(" Seq:%lu",seq_num);
+        printf("TCP  |");
+        printf("%d -> %d",ssap,dsap);
+        printf(" Seq:%lu",seq_num);
         if(ff&0x20)
-          myprintf(" URG:%d",urg);
+          printf(" URG:%d",urg);
         if(ff&0x10)
-          myprintf(" ACK:%lu",ack_num);
+          printf(" ACK:%lu",ack_num);
         if(ff&0x08)
-          myprintf(" PSH");
+          printf(" PSH");
         if(ff&0x04)
-          myprintf(" RST");
+          printf(" RST");
         if(ff&0x02&&ack_num==0)
-          myprintf(" REQ");
+          printf(" REQ");
         if(ff&0x02&&ack_num==1)
-          myprintf(" ACP");
+          printf(" ACP");
         if(ff&0x01)
-          myprintf(" FIN");
-        myprintf("\n");
+          printf(" FIN");
+        printf("\n");
       }
       if(flag) {
         filt_kill=1;
@@ -81,9 +81,9 @@ void liv4(u_int type,u_int len,const u_char *p) {
       }
       if(p_udp) {
         colore(4);
-        myprintf("UDP  |");
-        myprintf("%d -> %d",ssap,dsap);
-        myprintf("\n");
+        printf("UDP  |");
+        printf("%d -> %d",ssap,dsap);
+        printf("\n");
       }
       if(flag){
         filt_kill=1;
@@ -96,67 +96,67 @@ void liv4(u_int type,u_int len,const u_char *p) {
       if(!p_igmp)
         return;  
       colore(4);
-      myprintf("IGMP |");
+      printf("IGMP |");
       switch((*p)) {
         case 0x11:
-          myprintf("Query ");
+          printf("Query ");
           print_ipv4(p+4);
           break;
         case 0x12:
-          myprintf("Report ");
+          printf("Report ");
           print_ipv4(p+4);
           break;
         case 0x16:
-          myprintf("Nreport ");
+          printf("Nreport ");
           print_ipv4(p+4);
           break;
         case 0x17: 
-          myprintf("Leave ");
+          printf("Leave ");
           print_ipv4(p+4);
           break;
         case 0x13:
-          myprintf("DVMRP ** ");
+          printf("DVMRP ** ");
           break;
         case 0x14:
-          myprintf("PIM ** ");
+          printf("PIM ** ");
           break;
         case 0x1e:
-          myprintf("MRESP ** ");
+          printf("MRESP ** ");
           break;
         case 0x1f:
-          myprintf("MTRACE ** ");
+          printf("MTRACE ** ");
           break;
         default:
           unknown=1;
           return;
       }    
      
-      myprintf("\n");
+      printf("\n");
       decoded=1;
       return;
 
     case 1:
       if(!p_icmp)return;  
       colore(4);
-      myprintf("ICMP |");
+      printf("ICMP |");
       switch((*p)&0x0f){
         case 0:
-          myprintf("Echo Reply");
+          printf("Echo Reply");
           break;
         case 8:
-          myprintf("Echo Request");
+          printf("Echo Request");
           break;
         case 13:
-          myprintf("Timestamp Request");
+          printf("Timestamp Request");
           break;
         case 14:
-          myprintf("Timestamp Reply");
+          printf("Timestamp Reply");
           break;
         default:
           //unknown=1;
           return;
       }   
-      myprintf("\n");
+      printf("\n");
       decoded=1;
       return;
 
