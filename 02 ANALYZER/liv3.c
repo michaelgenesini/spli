@@ -14,7 +14,8 @@ void liv3(u_int type,const u_char *p) {
     // IPv4
     case 0x800:
       if(!r_ipv4)
-        return;    
+        return;
+      printf("\n\nIPV4\n\n");
       flag=0;
       for(aux_ipv4=filt_ipv4;aux_ipv4!=NULL;aux_ipv4=aux_ipv4->next) {
         i=aux_ipv4->scid;
@@ -44,20 +45,20 @@ void liv3(u_int type,const u_char *p) {
       }
       id=ntohs(*(u_int *)(p+4));
       ttl=*(p+8);
-      proto=*(p+9);
+      proto=*(p+9); //PROBABILMENTE a p + 14 + 9 vedo il protocollo livello 4
       len=ntohs(*(u_int *)(p+2));
       ihl=((*p)&0x0f)*4;
       fragm=ntohs(*(u_int *)(p+6));
       if(p_ipv4) {
         colore(3);
-        myprintf("IPv4 |");
+        myprintf("IPv4 |"); //MODIFICATO myprintf
         print_ipv4(p+12);
-        myprintf(" -> ");
+        myprintf(" -> "); //MODIFICATO myprintf
         print_ipv4(p+16);
-        myprintf(" Id:%d Ttl:%d Proto:%d Len:%d",id,ttl,proto,len);
+        myprintf(" Id:%d Ttl:%d Proto:%d Len:%d",id,ttl,proto,len); //MODIFICATO myprintf
         if(fragm&0x4000)
-          myprintf(" DF");
-        myprintf(" Fragm:%d%c\n",fragm&0x1fff,(fragm&0x2000)?'M':'F');
+          myprintf(" DF"); //MODIFICATO myprintf
+        myprintf(" Fragm:%d%c\n",fragm&0x1fff,(fragm&0x2000)?'M':'F'); //MODIFICATO myprintf
       }
       if(flag) {
         filt_kill=1;
@@ -68,7 +69,8 @@ void liv3(u_int type,const u_char *p) {
     // IP v6
     case 0x86dd:
       if(!r_ipv6)
-        return;    
+        return;
+      printf("\n\nIPV6\n\n");
       flag=0;
       for(aux_ipv6=filt_ipv6;aux_ipv6!=NULL;aux_ipv6=aux_ipv6->next) {
         i=aux_ipv6->scid;
@@ -102,11 +104,11 @@ void liv3(u_int type,const u_char *p) {
       len=ntohs(*(u_int *)(p+4));
       if(p_ipv6) {
         colore(3);
-        myprintf("IPv6 |");
+        myprintf("IPv6 |"); //MODIFICATO myprintf
         print_ipv6(p+8);
-        myprintf(" -> ");
+        myprintf(" -> "); //MODIFICATO myprintf
         print_ipv6(p+24);
-        myprintf(" Proto:%d Hop:%d Len:%d Flow:%ld\n",proto,ttl,len,flow);
+        myprintf(" Proto:%d Hop:%d Len:%d Flow:%ld\n",proto,ttl,len,flow); //MODIFICATO myprintf
       }
       if(flag) {
         filt_kill=1;
@@ -117,8 +119,9 @@ void liv3(u_int type,const u_char *p) {
 
     case 0x0806:
       if(!p_arp) return;
+      printf("\n\nARP\n\n");
       colore(3);
-      myprintf("ARP  |");
+      myprintf("ARP  |"); //MODIFICATO myprintf
       switch(htons(*(u_int *)(p+6))) {
         case 1:
           myprintf("Request   ");
@@ -133,15 +136,15 @@ void liv3(u_int type,const u_char *p) {
           myprintf("R_Reply   ");
           break;
       }
-      myprintf(" ");
+      myprintf(" "); //MODIFICATO myprintf
       print_liv2(p+8);
-      myprintf(" -> ");
+      myprintf(" -> "); //MODIFICATO myprintf
       print_liv2(p+18);
-      myprintf(" ");
+      myprintf(" "); //MODIFICATO myprintf
       print_ipv4(p+14);
-      myprintf(" -> ");
+      myprintf(" -> "); //MODIFICATO myprintf
       print_ipv4(p+24);
-      myprintf("\n");
+      myprintf("\n"); //MODIFICATO myprintf
       decoded=1;
       return;
 

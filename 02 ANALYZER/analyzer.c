@@ -23,14 +23,21 @@ void main(int argc, char **argv) {
 	}
 
 	fp = fopen(argv[1],"rt");
-	if(fp == NULL) exit(1);
+	if(fp == NULL) {
+		printf("il file di conf è null");
+		exit(1);
+	} else {
+		printf("il file non è null");
+	}
 
+	//leggo il file di configurazione
 	for(;;) {
 		fscanf(fp, "%s", buffer);
 		if(strcmp(buffer, "end") == 0)
 			break;
 		if(strcmp(buffer, "device") == 0) {
 			fscanf(fp,"%s",device);
+			printf("DEVICE: %s", device);
 		}
 		if(strcmp(buffer, "print") == 0) {
 			for(;;) {
@@ -236,7 +243,11 @@ void main(int argc, char **argv) {
 	}
 	mem=fopen("log","wt");
 	pd=pcap_open_live(device,LENSNIF,0,1000,buffer);
-	if(pd==NULL)
+	if(pd==NULL) {
+		printf("pcap open live returned null");
 		exit(1);
-	pcap_loop(pd,-1,liv2,dati);
+	} else {
+		printf("pcap open live ok");
+	}
+	pcap_loop(pd, -1,liv2,NULL);
 }

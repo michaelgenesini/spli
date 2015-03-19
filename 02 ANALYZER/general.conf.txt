@@ -1,9 +1,9 @@
-device eth1
+device en1
 
 print
-	nofilt_kill
+	filt_kill
 	decoded
-	nounknown
+	unknown
 end_print
 
 ether 
@@ -11,7 +11,7 @@ ether
 end_ether
 
 arp
-	noprint
+	print
 end_arp
 
 igmp
@@ -19,7 +19,7 @@ igmp
 end_igmp
 
 icmp
-	noprint
+	print
 end_icmp
 
 ipv4 
@@ -39,7 +39,7 @@ tcp
 end_tcp
 
 udp 
-	norun print
+	run print
 	filt 0 0
 end_udp
 

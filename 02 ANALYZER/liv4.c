@@ -9,7 +9,7 @@ void liv4(u_int type,u_int len,const u_char *p) {
   u_int urg;
   const u_char *mp;
   u_char ff; 
-  
+  printf("inside liv4, type %d", type);
   switch(type) {
     case 6:
       if(!r_tcp) return;  
@@ -136,7 +136,9 @@ void liv4(u_int type,u_int len,const u_char *p) {
       return;
 
     case 1:
+      printf("about to print icmp");
       if(!p_icmp)return;  
+      printf("inside icmp"),
       colore(4);
       myprintf("ICMP |");
       switch((*p)&0x0f){
