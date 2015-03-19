@@ -2,7 +2,43 @@
 
 #define LENSNIF 1500
 
+void signal_handler (int s) {
+	//we shound print counters
+	printf("\n\n\n---------- COUNTER --------------\n");
+	printf("| LVL3:\t\t\t%d\t|\n", counter.lvl3);
+	printf("| LVL4:\t\t\t%d\t|\n", counter.lvl4);
+	printf("| LVL7:\t\t\t%d\t|\n", counter.lvl7);
+	printf("| IPV4:\t\t\t%d\t|\n", counter.ipv4);
+	printf("| IPV6:\t\t\t%d\t|\n", counter.ipv6);
+	printf("| ARP:\t\t\t%d\t|\n", counter.arp);
+	printf("| TCP:\t\t\t%d\t|\n", counter.tcp);
+	printf("| UDP:\t\t\t%d\t|\n", counter.udp);
+	printf("| IGMP:\t\t\t%d\t|\n", counter.igmp);
+	printf("| ICMP:\t\t\t%d\t|\n", counter.icmp);
+	printf("| UNK:\t\t\t%d\t|\n", counter.unknown);
+	printf("| TOT:\t\t\t%d\t|\n", counter.tot);
+	printf("--------------------------------\n\n");
+	exit(0);
+}
+
 void main(int argc, char **argv) {
+
+	//binding the SIGINT signal to signal_handler
+	signal(SIGINT, signal_handler);
+
+	//initializing counters
+	counter.tot = 0;
+	counter.lvl3 = 0;
+	counter.lvl4 = 0;
+	counter.lvl7 = 0;
+	counter.ipv4 = 0;
+	counter.ipv6 = 0;
+	counter.arp = 0;
+	counter.tcp = 0;
+	counter.udp = 0;
+	counter.igmp = 0;
+	counter.icmp = 0;
+	counter.unknown = 0;
 
 	char buffer[200],*aux;
 	pcap_t *pd;

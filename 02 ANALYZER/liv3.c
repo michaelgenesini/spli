@@ -10,12 +10,18 @@ void liv3(u_int type,const u_char *p) {
   struct filt_ipv6 *aux_ipv6;
   int mask[8]={0,0x80,0xc0,0xe0,0xf0,0xf8,0xfc,0xfe};
   
+  //increasing counter
+  counter.lvl3++;
+
   switch(type) {
     // IPv4
     case 0x800:
       if(!r_ipv4)
         return;
       printf("\n\nIPV4\n\n");
+      //increase counter
+      counter.ipv4++;
+      //start decoding ipv4
       flag=0;
       for(aux_ipv4=filt_ipv4;aux_ipv4!=NULL;aux_ipv4=aux_ipv4->next) {
         i=aux_ipv4->scid;
@@ -71,6 +77,9 @@ void liv3(u_int type,const u_char *p) {
       if(!r_ipv6)
         return;
       printf("\n\nIPV6\n\n");
+      //increase counter
+      counter.ipv6++;
+      //start decoding 
       flag=0;
       for(aux_ipv6=filt_ipv6;aux_ipv6!=NULL;aux_ipv6=aux_ipv6->next) {
         i=aux_ipv6->scid;
@@ -120,6 +129,9 @@ void liv3(u_int type,const u_char *p) {
     case 0x0806:
       if(!p_arp) return;
       printf("\n\nARP\n\n");
+      //increase counter
+      counter.arp++;
+      //start decoding
       colore(3);
       myprintf("ARP  |"); //MODIFICATO myprintf
       switch(htons(*(u_int *)(p+6))) {

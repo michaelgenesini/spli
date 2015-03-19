@@ -9,10 +9,16 @@ void liv4(u_int type,u_int len,const u_char *p) {
   u_int urg;
   const u_char *mp;
   u_char ff; 
-  printf("inside liv4, type %d", type);
+
+  //increasing counter
+  counter.lvl4++;
+
   switch(type) {
     case 6:
-      if(!r_tcp) return;  
+      if(!r_tcp) return;
+      //increasing counter
+      counter.tcp++;
+      //start decoding tcp;
       ssap=ntohs(*(u_int *)p);
       dsap=ntohs(*(u_int *)(p+2));
       flag=0;
@@ -63,7 +69,10 @@ void liv4(u_int type,u_int len,const u_char *p) {
 
     case 17:
       if(!r_udp)
-        return;  
+        return;
+      //increasing counter
+      counter.udp++;
+      //start decoding
       ssap=ntohs(*(u_int *)p);
       dsap=ntohs(*(u_int *)(p+2));
       flag=0;
@@ -94,7 +103,10 @@ void liv4(u_int type,u_int len,const u_char *p) {
 
     case 2:
       if(!p_igmp)
-        return;  
+        return;
+      //increasing counter
+      counter.igmp++;
+      //start decoding
       colore(4);
       myprintf("IGMP |");
       switch((*p)) {
@@ -136,9 +148,10 @@ void liv4(u_int type,u_int len,const u_char *p) {
       return;
 
     case 1:
-      printf("about to print icmp");
-      if(!p_icmp)return;  
-      printf("inside icmp"),
+      if(!p_icmp)return;
+      //increasing counter
+      counter.icmp++;
+      //start decoding
       colore(4);
       myprintf("ICMP |");
       switch((*p)&0x0f){
@@ -163,6 +176,8 @@ void liv4(u_int type,u_int len,const u_char *p) {
       return;
 
     default:
+      //increasing counter
+      counter.unknown++;
       unknown=1;
       return;
     }

@@ -19,6 +19,26 @@ void print_ipv6(const u_char *);
 void print_liv2(const u_char *);
 
 
+typedef struct {
+  //generic counters 
+  int tot;
+  int lvl3;
+  int lvl4;
+  int lvl7;
+  //specific counters
+  //lvl3
+  int ipv4;
+  int ipv6;
+  int arp;
+  //lvl4
+  int tcp;
+  int udp;
+  int igmp;
+  int icmp;
+  int unknown;
+  //lvl7
+} p_counter;
+
 struct filt_ipv4 {
   u_char sip[4];
   u_char scid;
@@ -74,3 +94,4 @@ extern int p_unknown;
 extern int p_decoded;
 extern char device[];
 extern FILE *mem;
+p_counter counter;

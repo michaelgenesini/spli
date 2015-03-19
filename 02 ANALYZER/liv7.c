@@ -4,6 +4,9 @@
 void liv7(u_int len,const u_char *p) {
   int i;
   if((int)len<=0) return;
+  //increasing counter
+  counter.lvl7++;
+
   colore(5);
   myprintf("APPL |");
   for(i=1;i<=len;i++) {
