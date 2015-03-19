@@ -14,12 +14,12 @@ void liv2(u_char *user,const struct pcap_pkthdr *h,const u_char *p) {
   len=h->len;
   if(p_liv2) {
     colore(2);
-    printf("802.3|");
+    myprintf("802.3|");
     print_liv2(p+6);
-    printf(" -> ");
+    myprintf(" -> ");
     print_liv2(p);
-    printf(" Type:%04x Len:%d",type,len);
-    printf("\n");
+    myprintf(" Type:%04x Len:%d",type,len);
+    myprintf("\n");
   }
   liv3(type,p+14);
   if(olen!=0) {
