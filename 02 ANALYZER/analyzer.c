@@ -15,6 +15,8 @@ void main(int argc, char **argv) {
 	u_int aux_ui;
 	FILE *fp;
 
+	u_char *dati;
+
 	if(argc!=2) {
 		fprintf(stderr,"Use %s config_file\n",argv[0]);
 		exit(1);
