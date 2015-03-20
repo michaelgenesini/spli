@@ -161,6 +161,8 @@ void liv3(u_int type,const u_char *p) {
       return;
 
     default:
+      //increasing counter
+      counter.unknown++;
       unknown=1;
       return;
     }
