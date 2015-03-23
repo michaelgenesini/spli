@@ -94,4 +94,8 @@ extern int p_unknown;
 extern int p_decoded;
 extern char device[];
 extern FILE *mem;
+extern int r_ssh;
+extern int p_ssh;
+extern int r_ws;
+extern int p_ws;
 p_counter counter;
