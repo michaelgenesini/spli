@@ -26,7 +26,7 @@ void print_liv2(const u_char *p){
   int i;
   for(i=0;;i++){
     myprintf("%x",*p++); //MODIFICATO myprintf
-    if(i==5)break;
+    if(i==5) break;
     myprintf(":"); //MODIFICATO myprintf
   }
 }
@@ -36,7 +36,7 @@ void print_ipv4(const u_char *p){
   int i;
   for(mp=p,i=0;;i++){
     myprintf("%d",*mp++); //MODIFICATO myprintf
-    if(i==3)break;
+    if(i==3) break;
     myprintf("."); //MODIFICATO myprintf
   }
 }
@@ -46,7 +46,7 @@ void print_ipv6(const u_char *p){
   int i;
   for(mp=p,i=0;;i++){
     myprintf("%x",ntohs(*(u_int *)mp)); //MODIFICATO myprintf
-    if(i==7)break;
+    if(i==7) break;
     mp+=2;
     myprintf(":"); //MODIFICATO myprintf
   }
