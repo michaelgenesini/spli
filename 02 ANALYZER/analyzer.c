@@ -18,6 +18,8 @@ void signal_handler (int s) {
 	printf("| UNK:\t\t\t%d\t|\n", counter.unknown);
 	printf("| TOT:\t\t\t%d\t|\n", counter.tot);
 	printf("--------------------------------\n\n");
+	//closing log file
+	fclose(mem);
 	exit(0);
 }
 
