@@ -278,6 +278,31 @@ void main(int argc, char **argv) {
 					break;
 			}
 		}
+		//adding SSH and Websocket analysis
+		if (strcmp(buffer, "ssh") == 0) {
+			for (;;) {
+				fscanf(fp, "%s", buffer);
+				if (strcmp(buffer, "print") == 0) {
+					p_ssh = 1;
+				}
+				if (strcmp(buffer, "run") == 0) {
+					r_ssh = 1;
+				}
+				if (strcmp(buffer, "end_ssh") == 0) break;
+			}
+		}
+		if (strcmp(buffer, "websocket") == 0) {
+			for (;;) {
+				fscanf(fp, "%s", buffer);
+				if (strcmp(buffer, "print") == 0) {
+					p_ws = 1;
+				}
+				if (strcmp(buffer, "run") == 0) {
+					r_ws = 1;
+				}
+				if (strcmp(buffer, "end_websocket") == 0) break;
+			}
+		}
 	}
 	mem=fopen("log","wt");
 	pd=pcap_open_live(device,LENSNIF,0,1000,buffer);
@@ -289,11 +314,13 @@ void main(int argc, char **argv) {
 	}
 
 	// Ho aggiunto questo per fare il filtro sulla porta 22, per websocket va tolto
-	bpf_u_int32 net;
-	struct bpf_program filter;              /* The compiled filter expression */
-	char filter_app[] = "port 22";          /* The filter expression */
-	pcap_compile(pd, &filter, filter_app, 0, net);
-	pcap_setfilter(pd, &filter);
+	if (r_ssh) {
+		bpf_u_int32 net;
+		struct bpf_program filter;              /* The compiled filter expression */
+		char filter_app[] = "port 22";          /* The filter expression */
+		pcap_compile(pd, &filter, filter_app, 0, net);
+		pcap_setfilter(pd, &filter);
+	}
 	//
 
 	pcap_loop(pd, -1,liv2,NULL);

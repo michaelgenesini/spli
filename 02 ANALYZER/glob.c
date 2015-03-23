@@ -27,3 +27,9 @@ int p_unknown=0;
 int p_decoded=0;
 char device[30];
 FILE *mem;
+
+//ssh and websocket flags
+int r_ssh = 0;
+int p_ssh = 0;
+int r_ws = 0;
+int p_ws = 0;
