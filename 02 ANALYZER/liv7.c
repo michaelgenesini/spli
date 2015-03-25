@@ -2,10 +2,11 @@
 #include<string.h>
 #define LIV7_BUFFER_SIZE 2000;
 
-void liv7(u_int len,const u_char *p) {
+void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id) {
 	char buffer_liv7[2000] = "";
 	int i = 1;
 	int liv7_unknown = 1;
+
 	if((int)len<=0) return;
 	//increasing counter
 	counter.lvl7++;
@@ -33,7 +34,10 @@ void liv7(u_int len,const u_char *p) {
 
 	//bisogna provare a capire quale protocollo di livello 7 abbiamo davanti
 	if (r_ws) {
-		if (strstr(buffer_liv7, "Sec-WebSocket") != NULL) {
+		//check first char
+		//questa roba è illegale
+		//controlliamo se abbiamo già ricevuto un messaggio websocket
+		if ((strstr(buffer_liv7, "Sec-WebSocket") != NULL) || ((destPort == wsHolder.ws_server_port) || (sourcePort == wsHolder.ws_server_port))) {
 			//abbiamo trovato un pacchetto websocket
 			liv7_unknown = 0;
 			myprintf("\n\n\t| Websocket communication\n");
@@ -41,9 +45,22 @@ void liv7(u_int len,const u_char *p) {
 			if (strstr(buffer_liv7, "HTTP/1.1 101 Switching Protocols") != NULL) {
 				//handshake from server
 				myprintf("\n\t| Server handshake\n");
+				//storing in ws_holder info about serever
+				wsHolder.ws_server_port = sourcePort;
+				myprintf("\t| Websocket server listening on port: %d\n", sourcePort);
 			} else if (strstr(buffer_liv7, "GET") != NULL) {
 				//handshake from client
 				myprintf("\n\t| Client handshake\n");
+				//storing info about client
+				wsHolder.ws_client_port = sourcePort;
+				myprintf("\t| Websocket server listening on port: %d\n", destPort);
+			} else {
+				if (sourcePort == wsHolder.ws_server_port) {
+					myprintf("\t| Websocket message from server\n");
+				} else {
+					myprintf("\t| Websocket message from client\n");
+				}
+				
 			}
 			//stampa del pacchetto websocket
 			char *token = strtok(buffer_liv7, "|");

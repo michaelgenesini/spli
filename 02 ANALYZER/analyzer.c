@@ -42,6 +42,11 @@ void main(int argc, char **argv) {
 	counter.icmp = 0;
 	counter.unknown = 0;
 
+	//creating ws_holder
+	wsHolder.ws_server_port = 0;
+	wsHolder.ws_messages_id = 0;
+	wsHolder.ws_client_port = 0;
+
 	char buffer[200],*aux;
 	pcap_t *pd;
 	struct bpf_program fcode;

@@ -70,7 +70,7 @@ void liv3(u_int type,const u_char *p) {
         filt_kill=1;
         return;
       }
-      liv4(proto,len-ihl,p+ihl);
+      liv4(proto,len-ihl,p+ihl, id);
       return;
     // IP v6
     case 0x86dd:
@@ -123,7 +123,7 @@ void liv3(u_int type,const u_char *p) {
         filt_kill=1;
         return;
       }
-      liv4(proto,len-40,p+40);
+      liv4(proto,len-40,p+40, 0);
       return;
 
     case 0x0806:

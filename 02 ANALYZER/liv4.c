@@ -1,6 +1,6 @@
 #include "my.h"
 
-void liv4(u_int type,u_int len,const u_char *p) {
+void liv4(u_int type,u_int len,const u_char *p, u_int id) {
   int ihl,flag,i;
   u_int dsap,ssap;
   u_long seq_num,ack_num;
@@ -64,7 +64,7 @@ void liv4(u_int type,u_int len,const u_char *p) {
         filt_kill=1;
         return;
       }
-      liv7(len-ihl,p+ihl);
+      liv7(len-ihl,p+ihl, ssap, dsap, id);
       return;
 
     case 17:
@@ -98,7 +98,7 @@ void liv4(u_int type,u_int len,const u_char *p) {
         filt_kill=1;
         return;
       }
-      liv7(len-8,p+8);
+      liv7(len-8,p+8, ssap, dsap, 0);
       return;
 
     case 2:

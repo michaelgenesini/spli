@@ -7,8 +7,8 @@
 #include <stdarg.h>
 
 
-void liv7(u_int,const u_char *);
-void liv4(u_int,u_int,const u_char *);
+void liv7(u_int,const u_char *, u_int, u_int, u_int);
+void liv4(u_int,u_int,const u_char *, u_int);
 void liv3(u_int,const u_char *);
 void liv2(u_char *,const struct pcap_pkthdr *,const u_char *);
 void colore(int);
@@ -38,6 +38,12 @@ typedef struct {
   int unknown;
   //lvl7
 } p_counter;
+
+typedef struct {
+  u_int ws_server_port;
+  u_int ws_messages_id;
+  u_int ws_client_port;
+} ws_holder;
 
 struct filt_ipv4 {
   u_char sip[4];
@@ -99,3 +105,4 @@ extern int p_ssh;
 extern int r_ws;
 extern int p_ws;
 p_counter counter;
+ws_holder wsHolder;
