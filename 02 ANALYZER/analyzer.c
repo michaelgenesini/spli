@@ -323,5 +323,5 @@ void main(int argc, char **argv) {
 	}
 	//
 
-	pcap_loop(pd, -1,liv2,NULL);
+	pcap_loop(pd, -1, liv2, NULL);
 }
