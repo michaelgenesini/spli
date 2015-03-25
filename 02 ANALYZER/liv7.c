@@ -34,16 +34,14 @@ void liv7(u_int len,const u_char *p) {
 			myprintf("\n     |");
 		}
 	}
-	append(buffer_liv7, "EOP"); //adding endofpacket to end of string;
+	strcat(buffer_liv7, "EOP"); //adding endofpacket to end of string;
 
 	//bisogna provare a capire quale protocollo di livello 7 abbiamo davanti
 	if (r_ws) {
 		if (strstr(buffer_liv7, "websocket") != NULL) {
 			colore(6);
-			myprintf("\nWebsocket communication\n");
-			char* res = "";
-			extractString(buffer_liv7, "HTTP", "Upgrade:", res);
-			myprintf("\n %s", res);
+			//myprintf("\nWebsocket communication\n");
+			//myprintf("RES : %s", extractString(buffer_liv7, "GET", "Upgrade:"));
 			/*char** tokens;
 			tokens = str_split(buffer_liv7, ':');
 			int i;
@@ -54,6 +52,18 @@ void liv7(u_int len,const u_char *p) {
 			}
 			printf("\n");
 			free(tokens);*/
+			if (strstr(buffer_liv7, "HTTP/1.1 101 Switching Protocols") != NULL) {
+				//handshake from server
+				myprintf("\n\t| Server handshake\n");
+				myprintf("\n\t| HTTP/1.1 101 Switching Protocols\n");
+				char* upgrade, connection, accept, origin, useless;
+				//sscanf(buffer_liv7, "HTTP/1.1 101 Switching Protocols%sUpgrade:%sConnection:%sSec-WebSocket-Accept:%sOrigin:%s", useless, upgrade, connection, accept, origin);
+				sscanf(buffer_liv7, "HTTP%s", upgrade);
+				myprintf("\t| %s\n", upgrade);
+				//myprintf("\t| %s\n", connection);
+				//myprintf("\t| %s\n", accept);
+				//myprintf("\t| %s\n", origin);
+			}
 		}
 	}
 	if (r_ssh) {

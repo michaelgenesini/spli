@@ -22,7 +22,7 @@ void append(char* s, char c)
 }
 
 // string split
-/*
+
 char** str_split(char* a_str, const char a_delim)
 {
 		char** result    = 0;
@@ -60,25 +60,37 @@ char** str_split(char* a_str, const char a_delim)
 
 				while (token)
 				{
-						assert(idx < count);
+						//assert(idx < count);
 						*(result + idx++) = strdup(token);
 						token = strtok(0, delim);
 				}
-				assert(idx == count - 1);
+				//assert(idx == count - 1);
 				*(result + idx) = 0;
 		}
 
 		return result;
 }
-*/
+
 //extract string between delimeters
-void extractString(char* source, char delim1[], char delim2[], char* res) {
+char* extractString(char source[], char* delim1, char* delim2) {
+	//myprintf("ABOUT TO TEST %s , %s, %s", source, delim1, delim2);
 	const char *p1 = strstr(source, delim1) + strlen(delim1);
-	const char *p2 = strstr(p1, delim2);
+	const char *p2 = strstr(source, delim2);
+
+	if ((p1 == NULL) || (p2 == NULL)) {
+		myprintf("NULL !!!\n\n");
+		return "";
+	}
+
+	myprintf("p1 %s : ", p1);
+	myprintf("p2 %s : ", p2);
 	size_t len = p2 - p1;
-	res = (char*) malloc(sizeof(char)*(len+1));
-	strncpy(res, p1, len);
-	res[len] = '\0';
+	//static char result[2000];//
+	char result[1000] = "CULO";//(char*) malloc(sizeof(char)*(len+1));
+	//strncpy(result, p1, len);
+	//result[len] = '\0';
+	//myprintf("RESULT : %s", result);
+	return result;
 }
 
 void myprintf(const char *fmt, ...){
@@ -87,6 +99,12 @@ void myprintf(const char *fmt, ...){
 	vsprintf(outbuf+olen,fmt,ap);
 	va_end(ap);
 	olen+=strlen(outbuf+olen);
+}
+void myscanf( const char * str, const char * format, ... ) {
+  va_list args;
+  va_start (args, format);
+  vsscanf (str, format, args);
+  va_end (args);
 }
 
 void print_liv2(const u_char *p){
