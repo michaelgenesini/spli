@@ -7,6 +7,7 @@
 #include <stdarg.h>
 
 
+void ssh(u_int,const u_char *);
 void liv7(u_int,const u_char *, u_int, u_int, u_int);
 void liv4(u_int,u_int,const u_char *, u_int);
 void liv3(u_int,const u_char *);
