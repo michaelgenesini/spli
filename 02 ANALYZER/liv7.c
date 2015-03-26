@@ -1,9 +1,9 @@
 #include "my.h"
 #include<string.h>
-#define LIV7_BUFFER_SIZE 2000;
+#define LIV7_BUFFER_SIZE 2000
 
 void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id) {
-	char buffer_liv7[2000] = "";
+	char buffer_liv7[LIV7_BUFFER_SIZE] = "";
 	int i = 1;
 	int liv7_unknown = 1;
 
@@ -74,14 +74,14 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 		}
 	}
 	if (r_ssh) {
-    liv7_unknown = 0;
+    liv7_unknown = 1;
     ssh(len,p);
 	}
 
 	//non abbiamo incontrato nessun pacchetto analizzabile, procedo con la stampa normale
 	if (liv7_unknown) {
 		colore(5);
-		myprintf("\nAPPL |");
+    myprintf("\nAPPL |");
 		i = 1;
 		for(i = 1; i <= len; i++) {
 			if(isprint(*p)) {
