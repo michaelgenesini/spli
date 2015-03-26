@@ -74,11 +74,12 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 		}
 	}
 	if (r_ssh) {
-		//qui dobbiamo mostrare qualcosa per ssh
+    //qui dobbiamo mostrare qualcosa per ssh
 		if (strstr(buffer_liv7, "SSH") != NULL) {
       myprintf("\n\n\t| SSH Version Exchange\n");
     }else{
       //Se incontro un paccetto ssh, devo mettere liv7_unknown = 0;
+      int offset = 0;
       // v
       // |00|00|06|34|06|14|..|..|..//
       // leggo un uint32
@@ -87,20 +88,50 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
       // 
       u_int packetLenght = ntohl(*(u_int *)(p));
       myprintf("Packet Lenght:%d\n",packetLenght);
+      offset+=4;
       // avendo letto 4 byte ora mi sposto avanti di 4 e leggo un byte (char)
       //  -- -- -- --v
       // |00|00|06|34|06|14|..|..|..
-      // 
-      u_char paddingLenght=*(p+4);
+      //
+      u_char paddingLenght =*(p+offset);
       myprintf("Padding Lenght:%d\n",paddingLenght);
+      offset++;
+
       int payload = packetLenght-((int)paddingLenght)-1;
       myprintf("Payload:%d\n",payload);
-      u_char messCode=*(p+5);
+      
+      printf("MESS");
+      // LEGGO IL PAYLOAD
+      u_char messCode =*(p+offset);
       myprintf("Message Code:%d\n",messCode);
+      offset++;
       switch(messCode){
         case 20:
-          myprintf("SSH_MSG_KEXINIT");
+          myprintf("SSH_MSG_KEXINIT\n");
           // SAREBBE DA CHIAMARE LA FUNZIONE CHE PARSA QUESTO PACCHETTO
+          myprintf("Cookie: ");
+          for (int i = 0; i < 16; ++i) {
+            myprintf("%x", *(p+offset+i));
+          }
+          offset+=16;
+
+          // FIN QUI OK!
+          for (int i = 0; i < 7; ++i) {
+            u_int lenght = ntohl(*(u_int *)(p+offset));
+            offset+=4;
+            myprintf("\nLenght: %d\n", lenght);
+            myprintf("Message: ");
+            if (lenght>0) {
+             for (int j = 0; j < lenght+1; ++j) {
+                myprintf("%c", *(p+offset));
+                if (j!=lenght) {
+                  offset++;
+                }
+              }
+            }
+            myprintf("\n");
+          }
+          
           break;
         case 34:
           myprintf("DIFFIE-HELLMAN GROUP EXCHANGE REQUEST");
