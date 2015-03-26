@@ -41,6 +41,11 @@ typedef struct {
 } p_counter;
 
 typedef struct {
+  u_char *pointer;
+  u_int flag;
+} ssh_holder;
+
+typedef struct {
   u_int ws_server_port;
   u_int ws_messages_id;
   u_int ws_client_port;
@@ -107,3 +112,4 @@ extern int r_ws;
 extern int p_ws;
 p_counter counter;
 ws_holder wsHolder;
+ssh_holder sshHolder;
