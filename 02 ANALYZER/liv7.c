@@ -40,6 +40,9 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 		if ((strstr(buffer_liv7, "Sec-WebSocket") != NULL) || ((destPort == wsHolder.ws_server_port) || (sourcePort == wsHolder.ws_server_port))) {
 			//abbiamo trovato un pacchetto websocket
 			liv7_unknown = 0;
+			//flag per pacchetti ping e pong
+			int ping = 0;
+			int pong = 0;
 			myprintf("\n\n\t| Websocket communication\n");
 			//riconoscimento del tipo di pacchetto websocket
 			if (strstr(buffer_liv7, "HTTP/1.1 101 Switching Protocols") != NULL) {
@@ -60,16 +63,29 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 				} else {
 					myprintf("\t| Websocket message from client\n");
 				}
-				
+				switch((int)*(p+0)) {
+					case 138: {
+						myprintf("\t| PING");
+						ping = 1;
+						break;
+					}
+					case 137: {
+						myprintf("\t| PONG");
+						pong = 1;
+						break;
+					}
+				}
 			}
 			//stampa del pacchetto websocket
-			char *token = strtok(buffer_liv7, "|");
-			myprintf("\n");
-			while (token != NULL) {
-				if (strlen(token) != 0) {
-					myprintf("\t| %s\n", token);
+			if (!ping && !pong) {
+				char *token = strtok(buffer_liv7, "|");
+				myprintf("\n");
+				while (token != NULL) {
+					if (strlen(token) != 0) {
+						myprintf("\t| %s\n", token);
+					}
+					token = strtok(NULL, "|");
 				}
-				token = strtok(NULL, "|");
 			}
 		}
 	}
