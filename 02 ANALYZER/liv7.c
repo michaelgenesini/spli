@@ -90,14 +90,14 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 		}
 	}
 	if (r_ssh) {
-    liv7_unknown = 1;
-    ssh(len,p);
+    	liv7_unknown = 1;
+    	ssh(len,p);
 	}
 
 	//non abbiamo incontrato nessun pacchetto analizzabile, procedo con la stampa normale
 	if (liv7_unknown) {
 		colore(5);
-    myprintf("\nAPPL |");
+    	myprintf("\nAPPL |");
 		i = 1;
 		for(i = 1; i <= len; i++) {
 			if(isprint(*p)) {
