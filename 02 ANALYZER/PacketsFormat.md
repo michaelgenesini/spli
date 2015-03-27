@@ -43,9 +43,84 @@ Key exchange (kex) begins by each side sending name-lists of supported algorithm
 
 ...(Algorithm Negotiation, Output from Key Exchange, Taking Keys Into Use)
 
-### 4 Diffie-Hellman Key Exchange
+### 4 Algorithm Negotiation
+Key exchange begins by each side sending the following packet:
 
-### 5 Key Re-Exchange
+ - **byte**    SSH_MSG_KEXINIT
+ - **byte[16]**      cookie (random bytes)
+ - **name-lists**    kex_algorithms
+ - **name-list**     server_host_key_algorithms
+ - **name-list**     encryption_algorithms_client_to_server
+ - **name-list**     encryption_algorithms_server_to_client
+ - **name-list**     mac_algorithms_client_to_server
+ - **name-list**     mac_algorithms_server_to_client
+ - **name-list**     compression_algorithms_client_to_server
+ - **name-list**     compression_algorithms_server_to_client
+ - **name-list**     languages_client_to_server
+ - **name-list**     languages_server_to_client
+ - **boolean**       first_kex_packet_follows
+ - **uint32**        0 (reserved for future extension)
 
-## NB
-### Service Request
+### 5 Diffie-Hellman Key Exchange [RFC4419]
+
+First, the client sends:
+ - **byte**    SSH_MSG_KEY_DH_GEX_REQUEST
+ - **uint32**  min, minimal size in bits of an acceptable group
+ - **uint32**  n, preferred size in bits of the group the server will send
+ - **uint32**  max, maximal size in bits of an acceptable group
+
+The server responds with
+ - **byte**    SSH_MSG_KEX_DH_GEX_GROUP
+ - **mpint**   p, safe prime
+ - **mpint**   g, generator for subgroup in GF(p)
+
+The client responds with:
+ - **byte**    SSH_MSG_KEX_DH_GEX_INIT
+ - **mpint**   e
+
+The server responds with:
+ - **byte**    SSH_MSG_KEX_DH_GEX_REPLY
+ - **string**    server public host key and certificates (K_S)
+ - **mpint**     f
+ - **string**    signature of H
+
+The hash H is computed as the HASH hash of the concatenation of the following:
+ - **string**     V_C, the client’s version string (CR and NL excluded)
+ - **string**     V_S, the server’s version string (CR and NL excluded)
+ - **string**     I_C, the payload of the client’s SSH_MSG_KEXINIT
+ - **string**     I_S, the payload of the server’s SSH_MSG_KEXINIT
+ - **string**     K_S, the host key
+ - **uint32**     min, minimal size in bits of an acceptable group
+ - **uint32**     n, preferred size in bits of the group the server will send
+ - **uint32**     max, maximal size in bits of an acceptable group
+ - **mpint**      p, safe prime
+ - **mpint**      g, generator for subgroup
+ - **mpint**      e, exchange value sent by the client
+ - **mpint**      f, exchange value sent by the server
+ - **mpint**      K, the shared secret
+
+ This value is called the exchange hash, and it is used to authenticate the key exchange as per [RFC4253].
+
+######4. Key Exchange Methods
+This document defines two new key exchange methods:
+
+`"diffie-hellman-group-exchange-sha1" and "diffie-hellman-group-exchange-sha256"`.
+
+######4.1. diffie-hellman-group-exchange-sha1
+The "diffie-hellman-group-exchange-sha1" method specifies Diffie-Hellman Group and Key Exchange with SHA-1 [FIPS-180-2] as HASH.
+
+######4.2. diffie-hellman-group-exchange-sha256
+The "diffie-hellman-group-exchange-sha256" method specifies Diffie-Hellman Group and Key Exchange with SHA-256 [FIPS-180-2] as HASH.
+Note that the hash used in key exchange (in this case, SHA-256) must also be used in the key derivation pseudo-random function (PRF), as per the requirement in the "Output from Key Exchange" section in [RFC4253].
+
+######5. Summary of Message Numbers
+The following message numbers have been defined in this document.
+They are in a name space private to this document and not assigned by IANA.
+ - #define SSH_MSG_KEX_DH_GEX_REQUEST_OLD  30
+ - #define SSH_MSG_KEX_DH_GEX_REQUEST      34
+ - #define SSH_MSG_KEX_DH_GEX_GROUP        31
+ - #define SSH_MSG_KEX_DH_GEX_INIT         32
+ - #define SSH_MSG_KEX_DH_GEX_REPLY        33
+
+SSH_MSG_KEX_DH_GEX_REQUEST_OLD is used for backward compatibility.
+Instead of sending "min || n || max", the client only sends "n". In addition, the hash is calculated using only "n" instead of "min || n || max". The numbers 30-49 are key exchange specific and may be redefined by other kex methods.
