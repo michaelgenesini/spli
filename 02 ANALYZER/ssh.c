@@ -59,7 +59,7 @@ void parse31(int offset,const u_char *p){
 	myprintf("\ndh modulus(P)\t|");
 	for (int i = 0; i < multiInt+1; ++i) {
 		myprintf("%x",*(p+offset+i));
-		if(((i+1)%70)==0) {
+		if(((i+1)%40)==0) {
 			myprintf("\n\t\t|");
 		}
 	}
@@ -67,8 +67,11 @@ void parse31(int offset,const u_char *p){
 	u_int multiInt2 = ntohl(*(u_int *)(p+offset));
 	offset+=4;
 	myprintf("\nmpint_length\t|%d\ndh base (G)\t|",multiInt2);
-	for (int i = 0; i < multiInt2; ++i) {
-		myprintf("%d",*(p+offset+i));
+	for (int j = 0; j < multiInt2; ++j) {
+		myprintf("%x",*(p+offset+j));
+		if(((j+1)%40)==0) {
+			myprintf("\n\t\t|");
+		}
 	}
 }
 
@@ -116,7 +119,7 @@ void parse33(int offset,const u_char *p){
 	myprintf("\nkexdh_h_sig_length\t|%d\nkexdh_h_sig\t\t|",multiInt3);
 	for (int n = 0; n < multiInt3; ++n) {
 		myprintf("%x",*(p+offset+n));
-		if(((i+1)%70)==0) {
+		if(((n+1)%70)==0) {
 			myprintf("\n\t\t\t|");
 		}
 	}
@@ -139,8 +142,14 @@ void readPayload(int offset,const u_char *p){
 		case 32:
 			parse32(offset,p);
 			break;
+		case 30:
+			parse32(offset,p);
+			break;
 		case 33:
 			parse33(offset,p);
+			break;
+		case 21:
+			myprintf("NEW KEYS");
 			break;
 	}
 }
