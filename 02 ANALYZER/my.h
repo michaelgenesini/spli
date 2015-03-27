@@ -43,6 +43,7 @@ typedef struct {
 typedef struct {
   u_char *pointer;
   u_int flag;
+  u_int encrypted;
 } ssh_holder;
 
 typedef struct {

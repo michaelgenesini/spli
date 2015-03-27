@@ -1,6 +1,8 @@
 #include "my.h"
 #include<string.h>
 
+#define LINE 40
+
 void parse20(int offset,const u_char *p){
 
 	myprintf("SSH_MSG_KEXINIT\n");
@@ -19,7 +21,7 @@ void parse20(int offset,const u_char *p){
 		myprintf("\n%s\n\t| %d\n%s\n\t|",descLen[i],lenght,descStr[i]);
 		for (int j = 0; j < lenght+1; ++j) {
 			myprintf("%c", *(p+offset+j));
-			if(((j+1)%70)==0) {
+			if(((j+1)%LINE)==0) {
 				myprintf("\n\t|");
 			}
 		}
@@ -59,7 +61,7 @@ void parse31(int offset,const u_char *p){
 	myprintf("\ndh modulus(P)\t|");
 	for (int i = 0; i < multiInt+1; ++i) {
 		myprintf("%x",*(p+offset+i));
-		if(((i+1)%40)==0) {
+		if(((i+1)%LINE)==0) {
 			myprintf("\n\t\t|");
 		}
 	}
@@ -69,7 +71,7 @@ void parse31(int offset,const u_char *p){
 	myprintf("\nmpint_length\t|%d\ndh base (G)\t|",multiInt2);
 	for (int j = 0; j < multiInt2; ++j) {
 		myprintf("%x",*(p+offset+j));
-		if(((j+1)%40)==0) {
+		if(((j+1)%LINE)==0) {
 			myprintf("\n\t\t|");
 		}
 	}
@@ -84,7 +86,7 @@ void parse32(int offset,const u_char *p){
 	myprintf("\ndh client(e)\t|");
 	for (int i = 0; i < multiInt+1; ++i) {
 		myprintf("%x",*(p+offset+i));
-		if(((i+1)%70)==0) {
+		if(((i+1)%LINE)==0) {
 			myprintf("\n\t\t|");
 		}
 	}
@@ -99,7 +101,7 @@ void parse33(int offset,const u_char *p){
 	myprintf("\nkexdh_host_key\t\t|");
 	for (int i = 0; i < multiInt+1; ++i) {
 		myprintf("%x",*(p+offset+i));
-		if(((i+1)%70)==0) {
+		if(((i+1)%LINE)==0) {
 			myprintf("\n\t\t\t|");
 		}
 	}
@@ -109,7 +111,7 @@ void parse33(int offset,const u_char *p){
 	myprintf("\nmpint_length\t\t|%d\ndh server (f)\t\t|",multiInt2);
 	for (int k = 0; k < multiInt2; ++k) {
 		myprintf("%x",*(p+offset+k));
-		if(((k+1)%70)==0) {
+		if(((k+1)%LINE)==0) {
 			myprintf("\n\t\t\t|");
 		}
 	}
@@ -119,7 +121,7 @@ void parse33(int offset,const u_char *p){
 	myprintf("\nkexdh_h_sig_length\t|%d\nkexdh_h_sig\t\t|",multiInt3);
 	for (int n = 0; n < multiInt3; ++n) {
 		myprintf("%x",*(p+offset+n));
-		if(((n+1)%70)==0) {
+		if(((n+1)%LINE)==0) {
 			myprintf("\n\t\t\t|");
 		}
 	}
@@ -150,6 +152,7 @@ void readPayload(int offset,const u_char *p){
 			break;
 		case 21:
 			myprintf("NEW KEYS");
+			sshHolder.encrypted = 1;
 			break;
 	}
 }
@@ -172,6 +175,19 @@ void ssh(u_int len,const u_char *p) {
 		}
 		myprintf("\n");
 		
+	}else if(sshHolder.encrypted==1){
+		myprintf("SSH Encrypted Packet\n");
+		u_int packetLenght = ntohl(*(u_int *)(p));
+		myprintf("Packet Lenght(encrypted)|%d\n",packetLenght);
+		offset+=4;
+		myprintf("Encrypted Packet\t|");
+		for (int n = 0; n < len-4; ++n) {
+			myprintf("%x",*(p+offset+n));
+			if(((n+1)%LINE)==0) {
+				myprintf("\n\t\t\t|");
+			}
+		}
+
 	}else{
 		myprintf("SSH Binary Packet Protocol\n");
 		// v
