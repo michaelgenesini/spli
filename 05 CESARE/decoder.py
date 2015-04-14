@@ -54,7 +54,7 @@ class Decoder:
                     out.close()
                     pass
                 frm = str(imghdr.what(output))
-                if frm == "jpeg" or frm == "png":
+                if frm in self.extensions:
                     print "Key detected: " + str(_key)
                     break
             f.close()
