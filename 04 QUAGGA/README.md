@@ -80,7 +80,7 @@ router bgp 7675
  neighbor 192.168.12.2 next-hop-self
  neighbor 192.168.13.3 remote-as 34
  neighbor 192.168.13.3 next-hop-self
-``
+```
 
 #### Marci:
 
