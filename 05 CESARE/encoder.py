@@ -1,4 +1,4 @@
-from utils import charToBin
+from utils import *
 
 import traceback
 
@@ -32,9 +32,8 @@ class Encoder:
             while byte != "":
                 # ho letto un byte, lo stampo
                 # processo il byte appena letto
-                toWrite = int(charToBin(byte), 2) + self.key
-                #out.write(bytearray(int(str(toWrite), 2)))
-                out.write(bytes("\x"+str(toWrite)))
+                toWrite = inc(int(charToBin(byte), 2), self.key, MAX)
+                out.write(chr(toWrite))
                 # ne leggo un altro
                 byte = f.read(1)
         except Exception, e:

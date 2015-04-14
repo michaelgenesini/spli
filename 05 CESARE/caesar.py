@@ -45,4 +45,4 @@ if __name__ == '__main__':
     if mode == "encode":
         Encoder(filename, key).encode()
     else:
-        decoder = Decoder(filename, key)
+        Decoder(filename, key).decode()
