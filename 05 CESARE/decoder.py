@@ -8,6 +8,7 @@ class Decoder:
         # storing file and key/mode to decode file
         self.file = file
         self.key = key
+        self.extensions = ["rgb", "gif", "pbm", "pgm", "ppm", "tiff", "rast", "xbm", "jpeg", "bmp", "png"]
 
     def decode (self):
         '''
@@ -20,6 +21,13 @@ class Decoder:
         '''
         if self.key == "bruteforce":
             # non conosciamo la chiave
+            '''
+                sovrascrivi sempre lo stesso file di output ad ogni iterazione
+                import imghdr
+                controlla tipo di immagine con imghdr.what(filename)
+                se estensione non in self.extensions allora continua con la prossima
+                iterazione, altrimenti abbiamo trovato (probabilmente) la chiave giusta
+            '''
             pass
         else:
             output = self.file.split(".")[0] + "_decoded." + self.file.split(".")[1]
