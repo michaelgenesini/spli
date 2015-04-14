@@ -4,16 +4,7 @@ import sys
 from decoder import Decoder
 from encoder import Encoder
 
-def bin (s):
-    return str(s) if s<=1 else bin(s>>1) + str(s&1)
-
 if __name__ == '__main__':
-
-    a = 0b0001
-    for i in range(0, 16):
-        a = a + 1
-        print bin(a)
-
 
     # checking arguments
     if len(sys.argv) < 3:
@@ -52,6 +43,6 @@ if __name__ == '__main__':
 
     # creating encoder or decoder
     if mode == "encode":
-        encoder = Encoder()
+        Encoder(filename, key).encode()
     else:
-        decoder = Decoder()
+        decoder = Decoder(filename, key)
