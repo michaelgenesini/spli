@@ -99,7 +99,7 @@ router bgp 50
 #### Pedro:
 
  ```shell
- interface eth0
+interface eth0
 !
 interface lo
 !
