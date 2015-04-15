@@ -6,6 +6,8 @@ All users have to enable the ip forwarding
 $ sysctl -w net.ipv4.ip_forward=1
 ```
 
+![network](https://copy.com/ekx7O7YPnnY47mpf)
+
 ### IPs - (manual settings)
 
 Mike Router
