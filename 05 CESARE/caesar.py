@@ -3,6 +3,7 @@ import sys
 
 from decoder import Decoder
 from encoder import Encoder
+from frequency import Frequency
 
 if __name__ == '__main__':
 
@@ -44,5 +45,7 @@ if __name__ == '__main__':
     # creating encoder or decoder
     if mode == "encode":
         Encoder(filename, key).encode()
-    else:
+    elif mode == "decode":
         Decoder(filename, key).decode()
+    elif mode == "freq":
+        Frequency(filename).frequency()

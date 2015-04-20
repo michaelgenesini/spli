@@ -3,8 +3,10 @@
 All users have to enable the ip forwarding
 
 ```shell
-$ sysctl -w net.ipv4.ip_forward=1
+$ sysctl -w net.ipv4.conf.all.forwarding=1
 ```
+
+![network](https://copy.com/ekx7O7YPnnY47mpf)
 
 ### IPs - (manual settings)
 
