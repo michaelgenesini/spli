@@ -1,0 +1,79 @@
+!!! 5
+%html
+    %head
+        %title
+            websocket example
+
+        %script{:type=>"text/javascript", :src=>"app/lib/jquery.min.js"}
+        %script{:type=>"text/javascript", :src=>"app/lib/bootstrap.min.js"}
+        %script{:type=>"text/javascript", :src=>"app/lib/classy.min.js"}
+
+        %link{:rel=>"stylesheet", :type=>"text/css", :href=>"css/bootstrap.min.css"}
+        %link{:rel=>"stylesheet", :href=>"css/font-awesome/css/font-awesome.min.css"}
+
+        %link{:rel=>"stylesheet", :type=>"text/css", :href=>"css/app.css"}
+
+        %script{:type=>"text/javascript", :src=>"client.js"}
+        %script{:type=>"text/javascript", :src=>"crypt.js"}
+    %body
+        #container.container-fluid
+            .row
+                #buttons.col-md-4
+                    %form
+                        .form-group
+                            %label{:for=>"serverInput"}
+                                Server
+                            %input#serverInput.form-control{:type=>"text", :placeholder=>"localhost"}
+                        .form-group
+                            %label{:for=>"portInput"}
+                                Port
+                            %input#portInput.form-control{:type=>"text", :placeholder=>"10000"}
+                        %button#connect.btn.btn-success{:type=>"button"}
+                            Connect
+                    .row{:style=>"margin-top: 20px;"}
+                        .col-lg-6
+                            .input-group
+                                %span.input-group-btn
+                                    %button#send.btn.btn-default{:type=>"button"}
+                                        Send
+                                %input#input.form-control{:type=>"text", :placeholder=>"message", :disabled=>"true"}
+                        .col-lg-6
+                            .checkbox
+                                %label
+                                    %input#shouldDecode{:type=>"checkbox"}
+                                    Decode Message
+                    %ul.list-group{:style=>"margin-top: 20px;"}
+                        %li.list-group-item
+                            %span.badge
+                                protocol
+                            %span#protocol
+                                _
+                        %li.list-group-item
+                            %span.badge
+                                server
+                            %span#server
+                                _
+                        %li.list-group-item
+                            %span.badge
+                                port
+                            %span#serverport
+                                _
+                        %li.list-group-item
+                            %span.badge
+                                my ip
+                            %span#myip
+                                _
+                    %form
+                        .form-group
+                            %label{:for=>"exampleInputFile"}
+                                Send File
+                            %input#file{:type=>"file"}
+                            %p.help-block
+                                Send encoded file.
+                        .form-group
+                            %label{:for=>"exampleInputFile"}
+                                Choose Key
+                            %input#key{:type=>"text"}
+                            %p.help-block
+                                Send encoded file.
+                #log.col-md-8
