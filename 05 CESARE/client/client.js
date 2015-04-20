@@ -20,7 +20,7 @@ Class("Client", {
     init: function() {
         //setting key
         if (!app.key) {
-            app.key = prompt("Insert key to decode message. Use 'nope' to avoid decoding");
+            app.key = parseInt(prompt("Insert key to decode message. Use 'nope' to avoid decoding"));
         }
         //getting server and port value
         server = $('#serverInput').val();
