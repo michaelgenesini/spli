@@ -4,7 +4,7 @@
 import itertools
 import operator
 
-MAX = 122
+MAX = 123 # non sappiamo la matematica zio can
 MIN = 97
 
 def charToBin (c):
@@ -12,14 +12,14 @@ def charToBin (c):
     return "0b" + s
 
 def inc(value, inc, max):
-    if ( value + inc ) < max:
+    if ( value + inc ) <= max:
         return value + inc
     return value + inc - max
 
 def dec(value, dec, min):
     if ( value - dec ) >= min:
         return value - dec
-    return MAX + (value - dec)
+    return MAX - MIN + (value - dec)
 
 def findKey(crypted, origin):
     if (crypted - origin) >= 0:

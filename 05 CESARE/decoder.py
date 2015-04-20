@@ -71,8 +71,11 @@ class Decoder:
                 while byte != "":
                     # ho letto un byte, lo stampo
                     # processo il byte appena letto
-                    toWrite = dec(int(charToBin(byte), 2), self.key, MIN)
-                    out.write(chr(toWrite))
+                    if byte == " " or byte == "\n":
+                        out.write(byte)
+                    else:
+                        toWrite = dec(int(charToBin(byte), 2), self.key, MIN)
+                        out.write(chr(toWrite))
                     # ne leggo un altro
                     byte = f.read(1)
             except Exception, e:

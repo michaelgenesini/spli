@@ -34,5 +34,5 @@ class Frequency:
 		print 'Keys from Frequency', self.keys
 		k = most_common(self.keys)
 		print 'MOST COMMON KEY:' + str(k)
-		Decoder(self.file, k).decode()
+		Decoder(self.file, int(k)).decode()
 
