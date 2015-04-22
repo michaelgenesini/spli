@@ -1,0 +1,46 @@
+device en1
+
+print
+	filt_kill
+	decoded
+	unknown
+end_print
+
+ether 
+	print
+end_ether
+
+arp
+	print
+end_arp
+
+igmp
+	noprint
+end_igmp
+
+icmp
+	print
+end_icmp
+
+ipv4 
+	run print 
+	filt 10.10.10.0 24 0.0.0.0 0 
+	filt 0.0.0.0 0 10.10.10.0 24
+end_ipv4
+
+ipv6
+	run print
+	filt  0:0:0:0:0:0:0:0 0 0:0:0:0:0:0:0:0 0
+end_ipv6
+
+tcp 
+	run print
+	filt 0 0
+end_tcp
+
+udp 
+	run print
+	filt 0 0
+end_udp
+
+end
