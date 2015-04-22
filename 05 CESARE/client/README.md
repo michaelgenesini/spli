@@ -1,9 +1,9 @@
 #HOW TO
 
-start server with
+start server and open client with
 
-```javascript
-    node server.js
+```shell
+$ ./start.sh 
 ```
 
-open index.html, add server address and port, click connect.
+add server address and port, click connect.

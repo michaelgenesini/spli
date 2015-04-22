@@ -4,6 +4,7 @@ import sys
 from decoder import Decoder
 from encoder import Encoder
 from frequency import Frequency
+from occurrence import Occurrence
 
 if __name__ == '__main__':
 
@@ -12,6 +13,8 @@ if __name__ == '__main__':
         print "BAD USAGE:"
         print "python caesar.py encode filename key"
         print "python caesar.py decode filename [key]"
+        print "python caesar.py freq filename"
+        print "python caesar.py occurrence filename"
         sys.exit(0)
     
     # selected mode
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     # printing parameters
     print "Selected mode: " + mode
     print "Selected file: " + filename
-    print "Selected key: " + str(key)
+    # print "Selected key: " + str(key)
 
     # check if file exists
     if not os.path.isfile(filename):
@@ -49,3 +52,5 @@ if __name__ == '__main__':
         Decoder(filename, key).decode()
     elif mode == "freq":
         Frequency(filename).frequency()
+    elif mode == "occurrence":
+        Occurrence(filename).occurrence()
