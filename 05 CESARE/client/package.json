@@ -1,5 +1,10 @@
 {
     "name": "cesareClient",
+    "version": "1.0.0",
+    "description": "",
+    "main": "",
+    "author": "Gruppo 03 SPLI",
+    "license": "MIT",
     "dependencies": {
         "websocket": "*"
     }
