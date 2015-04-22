@@ -35,7 +35,7 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 
 	//bisogna provare a capire quale protocollo di livello 7 abbiamo davanti
 	if (r_ws) {
-		printf("checking for websocket");
+		//printf("checking for websocket");
 		//check first char
 		//questa roba è illegale
 		//controlliamo se abbiamo già ricevuto un messaggio websocket
