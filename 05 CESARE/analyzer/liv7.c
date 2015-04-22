@@ -31,7 +31,7 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 	append(buffer_liv7, "EOP"); //adding endofpacket to end of string;
 
 	//changing color
-	colore(6);
+	//colore(6);
 
 	//bisogna provare a capire quale protocollo di livello 7 abbiamo davanti
 	if (r_ws) {
@@ -45,7 +45,7 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 			//flag per pacchetti ping e pong
 			int ping = 0;
 			int pong = 0;
-			myprintf("\n\n\t| Websocket communication\n");
+			//printf("\nstart_ws\n");
 			//riconoscimento del tipo di pacchetto websocket
 			if (strstr(buffer_liv7, "HTTP/1.1 101 Switching Protocols") != NULL) {
 				//handshake from server
@@ -83,16 +83,16 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 				char *token = strtok(buffer_liv7, "|");
 				//myprintf("\n");
 				while (token != NULL) {
-					if (strlen(token) != 0) {
-						myprintf("%s\n", token);
+				//while {
+					if ((strlen(token) != 0)) {
+						printf("%s\n", token);
 						//printing to file
 						//fwrite(token, 1, sizeof(token), ws_file);
 					}
 					token = strtok(NULL, "|");
 				}
 			}
-
-			myprintf("\n");
+			//printf("\nend_ws\n");
 		}
 	}
 	if (r_ssh) {
@@ -102,7 +102,7 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 
 	//non abbiamo incontrato nessun pacchetto analizzabile, procedo con la stampa normale
 	if (liv7_unknown) {
-		colore(5);
+		//colore(5);
     	//myprintf("\nAPPL |");
 		i = 1;
 		for(i = 1; i <= len; i++) {
@@ -124,7 +124,7 @@ void liv7(u_int len,const u_char *p, u_int sourcePort, u_int destPort, u_int id)
 	}
 
 	//resetting default color
-	colore(1);
+	//colore(1);
 	//myprintf("\n");
 	fflush(mem);
 	decoded=1;

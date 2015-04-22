@@ -56,7 +56,7 @@ void liv3(u_int type,const u_char *p) {
       ihl=((*p)&0x0f)*4;
       fragm=ntohs(*(u_int *)(p+6));
       if(p_ipv4) {
-        colore(3);
+        //colore(3);
         //myprintf("IPv4 |"); //MODIFICATO myprintf
         //print_ipv4(p+12);
         //myprintf(" -> "); //MODIFICATO myprintf
@@ -112,7 +112,7 @@ void liv3(u_int type,const u_char *p) {
       flow=ntohl(*(u_long *)(p))&0x00ffffff;
       len=ntohs(*(u_int *)(p+4));
       if(p_ipv6) {
-        colore(3);
+        //colore(3);
         //myprintf("IPv6 |"); //MODIFICATO myprintf
         print_ipv6(p+8);
         //myprintf(" -> "); //MODIFICATO myprintf
@@ -132,7 +132,7 @@ void liv3(u_int type,const u_char *p) {
       //increase counter
       counter.arp++;
       //start decoding
-      colore(3);
+      //colore(3);
       //myprintf("ARP  |"); //MODIFICATO myprintf
       switch(htons(*(u_int *)(p+6))) {
         case 1:

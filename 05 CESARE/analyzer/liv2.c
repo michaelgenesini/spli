@@ -16,7 +16,7 @@ void liv2(u_char *user,const struct pcap_pkthdr *h,const u_char *p) {
 	type=ntohs(*(u_int *)(p+12));
 	len=h->len;
 	if(p_liv2) {
-		//colore(2);
+		////colore(2);
 		//myprintf("802.3|");//MODIFICATO myprintf
 		//print_liv2(p+6);
 		//myprintf(" -> ");//MODIFICATO myprintf
@@ -31,7 +31,7 @@ void liv2(u_char *user,const struct pcap_pkthdr *h,const u_char *p) {
 	//printf("%s\n", outbuf);
 
 	if(olen!=0) {
-		o_colore(1);
+		//o_colore(1);
 		if(p_decoded&&decoded)
 			//printf("\n%s Decoded %s\n%s",tratt,tratt,outbuf);
 			printf("\n%s", outbuf);

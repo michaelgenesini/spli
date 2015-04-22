@@ -40,7 +40,7 @@ void liv4(u_int type,u_int len,const u_char *p, u_int id) {
       ihl=((*(p+12))&0xf0)/4;
       ff=*(p+13);
       if(p_tcp) {
-        colore(4);
+        //colore(4);
         //myprintf("TCP  |");
         //myprintf("%d -> %d",ssap,dsap);
         //myprintf(" Seq:%lu",seq_num);
@@ -89,7 +89,7 @@ void liv4(u_int type,u_int len,const u_char *p, u_int id) {
         break;
       }
       if(p_udp) {
-        colore(4);
+        //colore(4);
         //myprintf("UDP  |");
         //myprintf("%d -> %d",ssap,dsap);
         //myprintf("\n");
@@ -107,7 +107,7 @@ void liv4(u_int type,u_int len,const u_char *p, u_int id) {
       //increasing counter
       counter.igmp++;
       //start decoding
-      colore(4);
+      //colore(4);
       //myprintf("IGMP |");
       switch((*p)) {
         case 0x11:
@@ -152,7 +152,7 @@ void liv4(u_int type,u_int len,const u_char *p, u_int id) {
       //increasing counter
       counter.icmp++;
       //start decoding
-      colore(4);
+      //colore(4);
       //myprintf("ICMP |");
       switch((*p)&0x0f){
         case 0:

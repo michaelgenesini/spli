@@ -87,7 +87,7 @@ Class("Client", {
                     app.log("--- ENCODED ---");
                     app.log(t);
                     app.log("--- ENCODED ---");
-                    app.connection.send(t);
+                    app.connection.send("START_WS"+t+"END_WS");
                     /*
                     var d = new Decrypt(t, key);
                     t = d.decode();
