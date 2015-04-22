@@ -1,0 +1,23 @@
+device en1
+
+print
+    nofilt_kill
+    decoded
+    nounknown
+end_print
+
+icmp
+    print
+end_icmp
+
+tcp 
+    run print
+    filt 0 0
+end_tcp
+
+udp 
+    norun print
+    filt 0 0
+end_udp
+
+end
