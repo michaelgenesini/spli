@@ -1,4 +1,4 @@
-cripted = fopen("File_occorrenze_del_criptato","r","native");
+cripted = fopen("~/spli/05\ CESARE/files/frequency_crypted.txt","r","native");
 statistics = fopen("frequenze_en","r","native");
 
 format1='%f';

@@ -8,7 +8,7 @@ class Occurrence:
 	def __init__ (self, file):
 		# storing file and key/mode to decode file
 		self.file = file
-		self.exclude = ['\n','\t',' ']
+		self.exclude = ['\n','\t',' ','_','~','*','1','2','3','4','5','6','7','8','9','.','0']
 		self.len = 0
 		self.obj = {'a':0,'b':0,'c':0,'d':0,'e':0,'f':0,'g':0,'h':0,'i':0,'j':0,'k':0,'l':0,'m':0,'n':0,'o':0,'p':0,'q':0,'r':0,'s':0,'t':0,'u':0,'v':0,'w':0,'x':0,'y':0,'z':0}
 
