@@ -36,7 +36,7 @@ server.on('request', function(request) {
                 mysocket = connection;
                 mysocket.send("hi!");
             } else {
-                connection.send("Message received: " + message.utf8Data);
+                //connection.send("Message received: " + message.utf8Data);
                 if (mysocket) {
                     mysocket.send(message.utf8Data);
                 }
