@@ -1,9 +1,9 @@
-    #!/bin/bash
+#!/bin/bash
 #
 #	Iptables Rules
 #
 
-echo 'Hello, iptables!'
+echo 'Ciao Bel'
 
 default="10.10.10."
 mike=$default"20"
@@ -35,9 +35,7 @@ iptables -P INPUT DROP
 iptables -P OUTPUT DROP
 iptables -P FORWARD ACCEPT
 
-
-iptables -t mangle -A PREROUTING -i $INTIF -p icmp -s $marco -d $INTIPS -j MARK --set-mark 0x1
-iptables -A INPUT -p icmp --icmp-type echo-request -m mark --mark 0x1 -m statistic --mode nth --every 2 --packet 0 -j DROP
+iptables -t mangle -A PREROUTING -p tcp -s $marco -j MARK --set-mark 0x1
 
 #
 # Nella rete interna tutte le chiamate sulla porta 80 al router vengono
@@ -47,14 +45,17 @@ iptables -A INPUT -p icmp --icmp-type echo-request -m mark --mark 0x1 -m statist
 iptables -t nat -A PREROUTING -i $INTIF -p tcp --dport 80 -d $router -s $INTIPS -j DNAT --to-destination $marco:8000
 #iptables -t nat -A PREROUTING -i $INTIF -p tcp -m multiport --dports $openPorts",22,"$mailPorts -j ACCEPT
 
-
 iptables -A FORWARD -i $INTIF -o $EXTIF -j ACCEPT
-#iptables -A FORWARD -i $EXTIF -o $INTIF -j ACCEPT
+iptables -A FORWARD -i $EXTIF -o $INTIF -j ACCEPT
 
 #
 # Blocca degli specifici indirizzi IP oppure host
 #
 iptables -A FORWARD -d 173.252.120.6 -j REJECT
+
+
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
 
 #
 # Consente ssh da dentro la rete per un solo utente
@@ -74,8 +75,6 @@ iptables -A OUTPUT -o $INTIF -p tcp --sport 22 -m state --state ESTABLISHED -j A
 #
 iptables -A INPUT -i $INTIF -p icmp -j ACCEPT
 iptables -A OUTPUT -o $INTIF -p tcp -j ACCEPT
-
-iptables -A INPUT -i $EXTIF -p icmp -j ACCEPT
 
 #
 # Consente traffico MAIL
@@ -99,12 +98,9 @@ iptables -A INPUT -i $EXTIF -p icmp -j ACCEPT
 iptables -A INPUT -p udp -i $INTIF --sport 53 -j ACCEPT
 iptables -A OUTPUT -p udp -o $INTIF --dport 53 -j ACCEPT
 
-iptables -A INPUT -p udp -i $EXTIF --sport 53 -j ACCEPT
-iptables -A INPUT -p udp -i $EXTIF --dport 53 -j ACCEPT
-iptables -A OUTPUT -p udp -o $EXTIF --dport 53 -j ACCEPT
-
 iptables -A OUTPUT -o $INTIF -p icmp -j ACCEPT
-iptables -A OUTPUT -o $EXTIF -p icmp -j ACCEPT
+#iptables -A FORWARD -d facebook.com -j REJECT
+
 
 iptables -t nat -A POSTROUTING -s $INTIPS -j MASQUERADE
 
