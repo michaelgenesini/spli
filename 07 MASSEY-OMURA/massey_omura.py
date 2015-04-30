@@ -1,6 +1,6 @@
 import sys, os, string
 from encrypt_file import encrypt
-from decrypt_file import decrypt
+#from decrypt_file import decrypt
 
 #Main del progetto
 
