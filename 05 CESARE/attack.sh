@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# tcpdump -w /Users/michael/Desktop/dump.pcap
+# tshark -r /Users/michael/Desktop/dump.pcap -V > /Users/michael/Desktop/converted.txt
 
 #Attacco Automatico
 #ssh da fare manualmente
