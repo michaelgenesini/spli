@@ -23,15 +23,17 @@ if __name__ == '__main__':
 	# selected filename
 	filename = sys.argv[2]
 
-	key_len     = 6
-	chunk_len   = 32
-	times       = 16
+	key_len		= 6
+	chunk_len	= 32
+	times		= 16
 
 	k = ''
 	for i in range(0,key_len):
 		k = k + str(random.randrange(0,2))
+	# Shared key serve per passarcela a voce tra i due client che vogliono scambiarsi il messaggio
 	print "Shared key:\t",k
 
+	# questo è l'md5 del file che eventualmente usiamo per testare se viene lo stesso al decript
 	print "File md5:\t", get_md5(filename)
 
 	# check if file exists

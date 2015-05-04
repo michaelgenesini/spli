@@ -29,10 +29,15 @@ class Encoder:
 		print '\nencoded_chunks:\t',encoded_chunks
 
 	def func (self,chunk,k):
+		# ultimi 16 bits
 		c1 = chunk[:len(chunk)/2]
+		# primi 16 bits
 		c2 = chunk[len(chunk)/2:]
+		# F = AND(NOT(c2),K)
 		f = andStrings(notString(c2),k)
+		# out = XOR(F, c1)
 		o = xorStrings(f,c1)
+		# decommentare queste print per vedere il funzionamento dell funzione
 		#print '-------------------CHUNK'
 		#print 'chunk:\t\t',c2
 		#print '-------------------'
