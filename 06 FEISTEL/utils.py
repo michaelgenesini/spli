@@ -69,14 +69,19 @@ def xorStrings(s1, s2):
 	"""
 	return "".join(str(ord(x) ^ ord(y)) for x, y in zip(s1, s2))
 
+def shift_left (s,n):
+	string = ''
+	for i in range(0, n+1):
+		string = s[(i % len(s)):] + s[:(i % len(s))]
+	return string
+
 def func (chunk,k):
 	# primi 16 bits
 	c1 = chunk[:len(chunk)/2]
 	# ultimi 16 bits
 	c2 = chunk[len(chunk)/2:]
 	# F = AND(NOT(c2),K)
-	f = andStrings(xorStrings(notString(c2),k), k)
-	#f = andStrings(notString(c2),k)
+	f = xorStrings(shift_left(andStrings(xorStrings(notString(c2),k), k),5),shift_left(k,3))
 	# out = XOR(F, c1)
 	o = xorStrings(c1,f)
 	return c2 + o
