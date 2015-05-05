@@ -58,13 +58,11 @@ def get_md5(file):
 
 def andStrings (s1,s2):
 	""" return a string with and bit a bit """
-	o = ''
-	for i in xrange(0,len(s1)):
-		if s1[i] == '1' and s2[i] == '1':
-			o = o + '1'
-		else:
-			o = o + '0'
-	return o
+	return "".join(str(ord(x) & ord(y)) for x, y in zip(s1, s2))
+
+def orStrings (s1,s2):
+	""" return a string with and bit a bit """
+	return "".join(str(ord(x) | ord(y)) for x, y in zip(s1, s2))
 
 def notString (s):
 	""" return a string complementrary to the input one """
@@ -76,12 +74,19 @@ def notString (s):
 			o = o + '1'
 	return o
 
-def xorStrings (s1,s2):
-	""" return a string with xor bit a bit """
-	o = ''
-	for i in xrange(0,len(s1)):
-		if (s1[i] == '1' and s2[i] == '1') or (s1[i] == '0' and s2[i] == '0'):
-			o = o + '0'
-		else:
-			o = o + '1'
-	return o
+def xorStrings(s1, s2):
+	"""
+	Returns XOR result from two string
+	"""
+	return "".join(str(ord(x) ^ ord(y)) for x, y in zip(s1, s2))
+
+def func (chunk,k):
+	# primi 16 bits
+	c1 = chunk[:len(chunk)/2]
+	# ultimi 16 bits
+	c2 = chunk[len(chunk)/2:]
+	# F = AND(NOT(c2),K)
+	f = andStrings(notString(c2),k)
+	# out = XOR(F, c1)
+	o = xorStrings(c1,f)
+	return c2 + o
