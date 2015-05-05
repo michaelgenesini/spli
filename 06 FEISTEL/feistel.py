@@ -23,9 +23,9 @@ if __name__ == '__main__':
 	# selected filename
 	filename = sys.argv[2]
 
-	key_len		= 6
+	key_len		= 16
 	chunk_len	= 32
-	times		= 16
+	times		= 16 #16
 
 	k = ''
 	for i in range(0,key_len):

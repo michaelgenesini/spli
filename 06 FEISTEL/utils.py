@@ -30,6 +30,7 @@ def findKey(crypted, origin):
 def get_chunks_from_file(file,len):
 	""" get_chunks_from_file (filename, chunk_len) """
 	f = open(file, "rb")
+	header = f.read(18)
 	chunks = []
 	chunk = ''
 	n = 0
@@ -47,7 +48,7 @@ def get_chunks_from_file(file,len):
 			chunk = ''
 			n = 0
 	f.close()
-	return chunks
+	return (header, chunks)
 
 def get_md5(file):
 	f = open(file, "rb")
@@ -86,6 +87,7 @@ def func (chunk,k):
 	# ultimi 16 bits
 	c2 = chunk[len(chunk)/2:]
 	# F = AND(NOT(c2),K)
+	#f = andStrings(xorStrings(notString(c2),k), k)
 	f = andStrings(notString(c2),k)
 	# out = XOR(F, c1)
 	o = xorStrings(c1,f)

@@ -11,13 +11,17 @@ class Encoder:
 		self.k = k.ljust(chunk_len/2, '0') 
 		self.chunk_len = chunk_len
 		self.times = times
-		self.chunks = get_chunks_from_file(file,chunk_len)
+		self.header, self.chunks = get_chunks_from_file(file,chunk_len)
+
+		print len(self.header)
+		print len(self.chunks)
 		
 		if len(self.chunks[len(self.chunks)-1])<chunk_len:
 			print 'Devo completare l\'ultimo'
 			print 'ultimo ',self.chunks[len(self.chunks)-1]
 			self.chunks[len(self.chunks)-1] = self.chunks[len(self.chunks)-1].zfill(32)
 			print 'ultimo ',self.chunks[len(self.chunks)-1]
+		print "creating output file.."
 		# storing output file destination
 		self.output = file.split(".")[0] + "_encoded." + file.split(".")[1]
 
@@ -28,6 +32,7 @@ class Encoder:
 				chunk = func(chunk,self.k)
 			encoded_chunks.append(chunk[16:32]+chunk[0:16])
 		out = open(self.output, "wb")
+		out.write(self.header)
 		for i in encoded_chunks:
 			out.write(chr(int(i[0:8],2)))
 			out.write(chr(int(i[8:16],2)))
