@@ -33,9 +33,6 @@ if __name__ == '__main__':
 	# Shared key serve per passarcela a voce tra i due client che vogliono scambiarsi il messaggio
 	print "Shared key:\t",k
 
-	# questo e l'md5 del file che eventualmente usiamo per testare se viene lo stesso al decript
-	print "File md5:\t", get_md5(filename)
-
 	# check if file exists
 	if not os.path.isfile(filename):
 		print "ERROR: File doesn't exists."

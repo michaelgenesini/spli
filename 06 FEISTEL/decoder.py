@@ -33,3 +33,4 @@ class Decoder:
 			out.write(chr(int(i[16:24],2)))
 			out.write(chr(int(i[24:32],2)))
 		out.close()
+		print 'MD5 Decryted:\t', get_md5(self.output)

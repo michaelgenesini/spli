@@ -23,7 +23,6 @@ class Encoder:
 
 	def encode (self):
 		encoded_chunks = []
-		print 'MD5 Origin:\t', get_md5(self.file)
 		for chunk in self.chunks:
 			for i in range(0,self.times):
 				chunk = func(chunk,self.k)
@@ -35,3 +34,4 @@ class Encoder:
 			out.write(chr(int(i[16:24],2)))
 			out.write(chr(int(i[24:32],2)))
 		out.close()
+		print 'MD5 Origin:\t', get_md5(self.file)
