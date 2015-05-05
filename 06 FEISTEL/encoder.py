@@ -8,20 +8,16 @@ class Encoder:
 		# storing file and key to encode
 		self.file = file
 		# ljust(len,'') completa la chiave con zeri alla fine per renderla lunga come il mezzo chunk (16)
-		self.k = k.ljust(chunk_len/2, '0') 
+		self.k = k.ljust(chunk_len/2, '0')
+		print 'k: ',self.k 
 		self.chunk_len = chunk_len
 		self.times = times
 		self.header, self.chunks = get_chunks_from_file(file,chunk_len)
 
-		print len(self.header)
-		print len(self.chunks)
-		
 		if len(self.chunks[len(self.chunks)-1])<chunk_len:
 			print 'Devo completare l\'ultimo'
-			print 'ultimo ',self.chunks[len(self.chunks)-1]
 			self.chunks[len(self.chunks)-1] = self.chunks[len(self.chunks)-1].zfill(32)
-			print 'ultimo ',self.chunks[len(self.chunks)-1]
-		print "creating output file.."
+		print "creating output file ..."
 		# storing output file destination
 		self.output = file.split(".")[0] + "_encoded." + file.split(".")[1]
 
@@ -39,4 +35,13 @@ class Encoder:
 			out.write(chr(int(i[16:24],2)))
 			out.write(chr(int(i[24:32],2)))
 		out.close()
-		print 'MD5 Origin:\t', get_md5(self.file)
+		origin_padded = self.file.split(".")[0] + "_padded." + self.file.split(".")[1]
+		p = open(origin_padded, "wb")
+		p.write(self.header)
+		for i in self.chunks:
+			p.write(chr(int(i[0:8],2)))
+			p.write(chr(int(i[8:16],2)))
+			p.write(chr(int(i[16:24],2)))
+			p.write(chr(int(i[24:32],2)))
+		p.close()
+		print 'MD5 Origin:\t', get_md5(origin_padded)

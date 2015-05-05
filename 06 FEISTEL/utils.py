@@ -12,21 +12,6 @@ def charToBin (c):
 	s = format(ord(c),'b').zfill(8)
 	return s
 
-def inc(value, inc, max):
-	if ( value + inc ) <= max:
-		return value + inc
-	return value + inc - max
-
-def dec(value, dec, min):
-	if ( value - dec ) >= min:
-		return value - dec
-	return MAX - MIN + (value - dec)
-
-def findKey(crypted, origin):
-	if (crypted - origin) >= 0:
-		return crypted - origin
-	return MAX - MIN + crypted - origin
-
 def get_chunks_from_file(file,len):
 	""" get_chunks_from_file (filename, chunk_len) """
 	f = open(file, "rb")
@@ -59,11 +44,14 @@ def get_md5(file):
 
 def andStrings (s1,s2):
 	""" return a string with and bit a bit """
-	return "".join(str(ord(x) & ord(y)) for x, y in zip(s1, s2))
-
-def orStrings (s1,s2):
-	""" return a string with and bit a bit """
-	return "".join(str(ord(x) | ord(y)) for x, y in zip(s1, s2))
+	#return "".join(ord(x) & ord(y) for x, y in zip(s1, s2))
+	o = ''
+	for i in xrange(0,len(s1)):
+		if s1[i] == '1' and s2[i] == '1':
+			o = o + '1'
+		else:
+			o = o + '0'
+	return o
 
 def notString (s):
 	""" return a string complementrary to the input one """
@@ -87,8 +75,8 @@ def func (chunk,k):
 	# ultimi 16 bits
 	c2 = chunk[len(chunk)/2:]
 	# F = AND(NOT(c2),K)
-	#f = andStrings(xorStrings(notString(c2),k), k)
-	f = andStrings(notString(c2),k)
+	f = andStrings(xorStrings(notString(c2),k), k)
+	#f = andStrings(notString(c2),k)
 	# out = XOR(F, c1)
 	o = xorStrings(c1,f)
 	return c2 + o

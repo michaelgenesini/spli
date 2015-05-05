@@ -13,12 +13,11 @@ class Decoder:
 		self.chunk_len = chunk_len
 		self.times = times
 		self.header, self.chunks = get_chunks_from_file(file,chunk_len)
-		print len(self.header)
-		print len(self.chunks)
-		
-		if len(self.chunks)<32:
-			print 'Devo completare l\'ultimo'
-			print self.chunks[len(self.chunks)-1]
+
+		if len(self.chunks[len(self.chunks)-1])<chunk_len:
+			#print 'Devo completare l\'ultimo'
+			self.chunks[len(self.chunks)-1] = self.chunks[len(self.chunks)-1].zfill(32)
+			print "creating output file ..."
 		# storing output file destination
 		self.output = file.split(".")[0] + "_decoded." + file.split(".")[1]
 
