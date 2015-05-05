@@ -1,9 +1,13 @@
 #!/bin/bash
 
-python massey_omura.py Lena.jpg Lena_EA.jpg -e key.bin
+echo "1"
+python massey_omura.py Lena.tga Lena_EA.tga -e key.bin
 
-python massey_omura.py Lena_EA.jpg Lena_EA_EB.jpg -e key2.bin
+echo "2"
+python massey_omura.py Lena_EA.tga Lena_EA_EB.tga -e key2.bin
 
-python massey_omura.py Lena_EA_EB.jpg Lena_EB.jpg -d key.bin
+echo "3"
+python massey_omura.py Lena_EA_EB.tga Lena_EB.tga -d key.bin
 
-python massey_omura.py Lena_EB.jpg Lena_decrypt.jpg -d key2.bin
+echo "4"
+python massey_omura.py Lena_EB.tga Lena_decrypt.tga -d key2.bin

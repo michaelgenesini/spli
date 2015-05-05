@@ -12,7 +12,9 @@ class Decoder:
 		
 		self.chunk_len = chunk_len
 		self.times = times
-		self.chunks = get_chunks_from_file(file,chunk_len)
+		self.header, self.chunks = get_chunks_from_file(file,chunk_len)
+		print len(self.header)
+		print len(self.chunks)
 		
 		if len(self.chunks)<32:
 			print 'Devo completare l\'ultimo'
@@ -27,6 +29,7 @@ class Decoder:
 				chunk = func(chunk,self.k)
 			decoded_chunks.append(chunk[16:32]+chunk[0:16])
 		out = open(self.output, "wb")
+		out.write(self.header)
 		for i in decoded_chunks:
 			out.write(chr(int(i[0:8],2)))
 			out.write(chr(int(i[8:16],2)))

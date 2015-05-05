@@ -25,9 +25,9 @@ if __name__ == '__main__':
 	# selected filename
 	filename = sys.argv[2]
 
-	key_len		= 6
+	key_len		= 16
 	chunk_len	= 32
-	times		= 16
+	times		= 16 #16
 
 	# check if file exists
 	if not os.path.isfile(filename):
