@@ -6,19 +6,28 @@ import traceback
 class Bruteforce:
 
 	def __init__ (self, file, chunk_len, key_len, md5, times):
-		# storing file and key to encode
 		self.file = file
-		# ljust(len,'') completa la chiave con zeri alla fine per renderla lunga come il mezzo chunk (16)
 		self.key_len = key_len
 		self.md5 = md5
 
-		keys = list(itertools.product([0,1], repeat=6))
+		keys_list = list(itertools.product([0,1], repeat=key_len))
+		keys = []
 		self.keys = []
-		for k in keys:
+		for k in keys_list:
 			temp = ''
 			for i in k:
 				temp = temp + str(i)
-			self.keys.append(temp.ljust(chunk_len/2, '0'))
+			keys.append(temp.ljust(chunk_len/2, '0'))
+
+		self.keys = []
+		for i in keys:
+			temp = generate_keys(i.ljust(chunk_len/2, '0'),times)
+			k = []
+			for i in reversed(temp):
+				k.append(i)
+			self.keys.append(k)
+
+		print self.keys
 
 		self.chunk_len = chunk_len
 		self.times = times
@@ -38,7 +47,7 @@ class Bruteforce:
 			output = self.file.split(".")[0] + "_decoded_" + str(n) + "." + self.file.split(".")[1]
 			for chunk in self.chunks:
 				for i in range(0,self.times):
-					chunk = func(chunk,k)
+										chunk = func(chunk,k[i])
 				decoded_chunks.append(chunk[16:32]+chunk[0:16])
 			out = open(output, "wb")
 			out.write(self.header)
@@ -49,8 +58,8 @@ class Bruteforce:
 				out.write(chr(int(i[24:32],2)))
 			out.close()
 			n += 1
-			if get_md5(output) == self.md5:
-				print "TROVATO! chiave: ", str(k)
+			if get_md5_file(output) == self.md5:
+				print "TROVATO! chiave: ", k
 				break
 			else:
 				os.remove(output)

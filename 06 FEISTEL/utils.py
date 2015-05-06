@@ -4,6 +4,7 @@ import os
 import itertools
 import operator
 import hashlib
+from bitarray import bitarray
 
 MAX = 123 # non sappiamo la matematica zio can
 MIN = 97
@@ -35,12 +36,31 @@ def get_chunks_from_file(file,len):
 	f.close()
 	return (header, chunks)
 
-def get_md5(file):
+def generate_keys(k, times):
+	"""
+	return an array of keys by simply shifting bits
+	"""
+	keys=[]
+	for i in range(0, times):
+		key = k[(i % len(k)):] + k[:(i % len(k))]
+		keys.append(key)
+	return keys
+
+def get_md5_file (file):
 	f = open(file, "rb")
 	m = hashlib.md5()
 	m.update(f.read())
 	f.close()
 	return m.hexdigest()
+
+def get_md5(s):
+	ba = bitarray(s) #obtain bitarray object from string message
+	bytes = ba.tobytes() #get bytes
+	md5 = hashlib.md5()
+	data = bytes
+	md5.update(data)
+	dig = md5.digest()
+	return str(charToBin(dig[1])) + str(charToBin(dig[0]))
 
 def andStrings (s1,s2):
 	""" return a string with and bit a bit """
@@ -76,12 +96,15 @@ def shift_left (s,n):
 	return string
 
 def func (chunk,k):
-	# primi 16 bits
 	c1 = chunk[:len(chunk)/2]
-	# ultimi 16 bits
 	c2 = chunk[len(chunk)/2:]
+
 	# F = AND(NOT(c2),K)
-	f = xorStrings(shift_left(andStrings(xorStrings(notString(c2),k), k),5),shift_left(k,3))
+	#x = xorStrings(shift_left(andStrings(xorStrings(notString(c2),k), k),5),shift_left(k,3))
+	x = xorStrings(c2,k)
+
+	f = get_md5(x)
+
 	# out = XOR(F, c1)
 	o = xorStrings(c1,f)
 	return c2 + o

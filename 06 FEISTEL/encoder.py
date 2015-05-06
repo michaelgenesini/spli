@@ -8,8 +8,9 @@ class Encoder:
 		# storing file and key to encode
 		self.file = file
 		# ljust(len,'') completa la chiave con zeri alla fine per renderla lunga come il mezzo chunk (16)
-		self.k = k.ljust(chunk_len/2, '0')
-		print 'k: ',self.k 
+		self.k = generate_keys(k.ljust(chunk_len/2, '0'),times)
+		print self.k
+
 		self.chunk_len = chunk_len
 		self.times = times
 		self.header, self.chunks = get_chunks_from_file(file,chunk_len)
@@ -25,7 +26,7 @@ class Encoder:
 		encoded_chunks = []
 		for chunk in self.chunks:
 			for i in range(0,self.times):
-				chunk = func(chunk,self.k)
+				chunk = func(chunk,self.k[i])
 			encoded_chunks.append(chunk[16:32]+chunk[0:16])
 		out = open(self.output, "wb")
 		out.write(self.header)
@@ -44,4 +45,5 @@ class Encoder:
 			p.write(chr(int(i[16:24],2)))
 			p.write(chr(int(i[24:32],2)))
 		p.close()
-		print 'MD5 Origin:\t', get_md5(origin_padded)
+		print 'MD5 Origin:\t', get_md5_file(origin_padded)
+		os.remove(origin_padded)
