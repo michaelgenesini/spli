@@ -2,19 +2,17 @@ import os
 import sys
 import random
 
-from utils import *
 from decoder import Decoder
 from encoder import Encoder
-from bruteforce import Bruteforce
 
 if __name__ == '__main__':
 
     # checking arguments
     if len(sys.argv) < 3:
         print "BAD USAGE:"
-        print "python feistel.py encode filename [key]"
-        print "python feistel.py decode filename key"
-        print "python feistel.py bruteforce filename md5"
+        print "python rsa.py encode filename len"
+        print "python rsa.py decode filename ???"
+        print "python rsa.py bruteforce filename md5"
         sys.exit(0)
 
     print "RSA"
@@ -24,6 +22,7 @@ if __name__ == '__main__':
 
     # selected filename
     filename = sys.argv[2]
+    len = sys.argv[3]
 
     # check if file exists
     if not os.path.isfile(filename):
@@ -33,14 +32,14 @@ if __name__ == '__main__':
     # creating encoder or decoder
     if mode == 'encode':
         print 'Encoding ...'
-        Encoder(filename, chunk_len, k, times).encode()
+        Encoder(filename, len).encode()
     elif mode == 'decode':
         key = sys.argv[3]
         print 'Decoding ...'
-        Decoder(filename, chunk_len, key, times).decode()
+        Decoder(filename, len).decode()
     elif mode == 'bruteforce':
         if len(sys.argv) < 4:
-            print "python feistel.py bruteforce filename md5"
+            print "python rsa.py bruteforce filename md5"
             sys.exit(0)
         #selected key
         md5 = sys.argv[3] 

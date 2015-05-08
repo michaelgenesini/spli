@@ -1,3 +1,5 @@
+from utils import *
+
 class Encoder:
 
     def __init__(self, file, numbit):
@@ -42,13 +44,30 @@ class Encoder:
             self.gotError = True
             raise
 
+    def F(self):
+        pass
+
+    def G(self):
+        pass
+
     def encode(self):
         '''
             RSA encoding
 
-            - cripto il messaggio in base ai dati creati prima
+            - leggo il file
+            - creo un buffer convertendo tutto il fottuto file in numeri
         '''
         if self.gotError:
             return
 
-        f = open(self.file, "rb")
+        # opening file and creating buffer
+        number = fileToNum(self.file, 27)
+        content = NumToText(number, 27)
+
+        print number
+        print content
+
+
+
+
+
