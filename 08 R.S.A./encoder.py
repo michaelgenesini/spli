@@ -12,7 +12,7 @@ class Encoder:
         print " p = prime number"
         print " q = prime number"
         print " n = p * q"
-        print " prod = (p - 1) * (q - 1)"
+        print " phi = (p - 1) * (q - 1)"
         print "-------------------------"
         # storing file
         self.file = file
@@ -36,7 +36,13 @@ class Encoder:
 
             # creating mod and product
             self.n = self.p * self.q
-            self.prod = (self.p-1) * (self.q-1)
+            self.phi = (self.p-1) * (self.q-1)
+
+            # choosing e
+            e = 1
+            while 1:
+                
+
 
             self.gotError = False
         except Exception, e:
@@ -45,10 +51,38 @@ class Encoder:
             raise
 
     def F(self):
-        pass
+        '''
+        converting file to numbers
+        '''
 
-    def G(self):
-        pass
+        # opening file
+        f = open(file, "rb")
+        n = 0
+
+        byte = f.read(1)
+        while byte:
+            n = (n*base) + ord(byte)
+            byte = f.read(1)
+
+        return n
+
+    def inverseF(self):
+        '''
+            reverse function of F
+        '''
+
+        value = []
+        res = int(num)
+        b = int(base)
+
+        while res != 0:
+            # prendo il resto tra res e base
+            resto = res%b
+            value.append(chr(resto))
+            res = (res - resto)/b
+
+        # returning the old content
+        return "".join(value[::-1])
 
     def encode(self):
         '''
@@ -61,8 +95,8 @@ class Encoder:
             return
 
         # opening file and creating buffer
-        number = fileToNum(self.file, 27)
-        content = NumToText(number, 27)
+        number = F(self.file, 300)
+        content = inverseF(number, 300)
 
         print number
         print content

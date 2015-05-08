@@ -5,6 +5,7 @@ def fileToNum(file, base):
 
     # opening file
     f = open(file, "rb")
+    '''
     value = ""
 
     byte = f.read(1)
@@ -19,6 +20,15 @@ def fileToNum(file, base):
     #joined = "".join([str(el) for el in value])
     # returning value
     return res
+    '''
+    n = 0
+
+    byte = f.read(1)
+    while byte:
+        n = (n*base) + ord(byte)
+        byte = f.read(1)
+
+    return n
 
 def NumToText(num, base):
     '''
@@ -29,16 +39,15 @@ def NumToText(num, base):
     res = int(num)
     b = int(base)
 
-    print "res", res
-    print "b", b
     while res != 0:
         # prendo il resto tra res e base
         resto = res%b
-        print "resto ", resto
         value.append(chr(resto))
-        print chr(resto)
         res = (res - resto)/b
-        print "next value ", res
 
     # returning the old content
-    return "".join(value)
+    return "".join(value[::-1])
+
+def getGCD(v1, v2):
+    
+    pass
