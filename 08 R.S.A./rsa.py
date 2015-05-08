@@ -32,7 +32,10 @@ if __name__ == '__main__':
     # creating encoder or decoder
     if mode == 'encode':
         print 'Encoding ...'
-        Encoder(filename, len).encode()
+        #Encoder(filename, len).encode()
+        e = Encoder(filename, len)
+        e.encode()
+        e.decode()
     elif mode == 'decode':
         key = sys.argv[3]
         print 'Decoding ...'

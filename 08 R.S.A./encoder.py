@@ -8,12 +8,14 @@ class Encoder:
 
             - scelta di "p" e "q"
         '''
-        print "---------- RSA ----------"
+        print "-------------------- RSA --------------------"
         print " p = prime number"
         print " q = prime number"
         print " n = p * q"
         print " phi = (p - 1) * (q - 1)"
-        print "-------------------------"
+        print " e -> 1 < e < phi(n), GCD(e, phi) = 1"
+        print " d -> "
+        print "---------------------------------------------"
         # storing file
         self.file = file
         # storing info for keys
@@ -29,20 +31,30 @@ class Encoder:
 
             iterator = primes_above(minValue)
             primesList = [next(iterator) for num in range(minValue, maxValue)]
+
             # creatint p and q
             ref = int(round(len(primesList)/3))
             self.p = primesList[ref]
             self.q = primesList[-ref]
+            print "P: ", self.p, " Q:", self.q
 
             # creating mod and product
             self.n = self.p * self.q
             self.phi = (self.p-1) * (self.q-1)
+            print "N:", self.n, " PHI: ", self.phi
 
             # choosing e
-            e = 1
-            while 1:
-                
+            flag, self.e = getCoprime(self.phi)
+            print "E: ", self.e
 
+            if flag:
+                # choosing d
+                self.d = self.getD()
+                print "D: ", self.d
+
+                # salviamo chiave pubblica e privata
+                self.pubkey = (self.n, self.e)
+                self.privkey = (self.n, self.d)
 
             self.gotError = False
         except Exception, e:
@@ -50,7 +62,13 @@ class Encoder:
             self.gotError = True
             raise
 
-    def F(self):
+    def getD(self):
+        val = 1
+        while (val*self.e)%self.phi != 1:
+            val += 1
+        return val
+
+    def F(self, file, base):
         '''
         converting file to numbers
         '''
@@ -66,7 +84,7 @@ class Encoder:
 
         return n
 
-    def inverseF(self):
+    def inverseF(self, num, base):
         '''
             reverse function of F
         '''
@@ -95,13 +113,21 @@ class Encoder:
             return
 
         # opening file and creating buffer
-        number = F(self.file, 300)
-        content = inverseF(number, 300)
+        number = self.F(self.file, 300)
+        #content = self.inverseF(number, 300)   
 
-        print number
-        print content
+        self.message = pow(number, self.e)%self.n
 
+        print "number: ", number
+        print "message: ", self.message
+        print "crypted: ", self.inverseF(self.message, 300)
 
+    def decode(self):
+
+        self.decoded = pow(self.message, self.d)%self.n
+
+        print self.decoded
+        print self.inverseF(self.decoded, 300)
 
 
 
