@@ -1,5 +1,6 @@
 from math import *
 from fractions import gcd
+from random import *
 
 def fileToNum(file, base):
     '''
@@ -50,7 +51,7 @@ def NumToText(num, base):
 
     # returning the old content
     return "".join(value[::-1])
-    
+
 '''
 def getGCD(v1, v2):
     # trovo il massimo comune divisore
@@ -62,19 +63,46 @@ def getGCD(v1, v2):
     return max(v1, v2)
 '''
 
-def getCoprime(phi):
+def getCoprime(phi, max=100):
+    '''
     val = 3
     found = False
-
+    buffer = []
     # vado avanti fino a quando val != phi
     while val < phi:
         if gcd(val, phi) == 1:
             found = True
-            return (found, val)
+            buffer.append(val)
+            #return (found, val)
         val += 1
 
-    # non ho trovato il coprimo, ritorno None
-    return (found, None)
+    if len(buffer) == 0:
+        # non ho trovato il coprimo, ritorno None
+        return (found, None)
+
+    return buffer[random.randint()]
+    '''
+
+    e = randint(phi - (phi//100), phi)
+
+    while gcd(e, phi) != 1:
+        e = randint(phi - (phi//100), phi)
+
+    return (True, e)
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    gcd, x, y = egcd(a, m)
+    if gcd != 1:
+        return None  # modular inverse does not exist
+    else:
+        return x % m
 
 
 

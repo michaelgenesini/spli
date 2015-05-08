@@ -63,12 +63,16 @@ class Encoder:
             raise
 
     def getD(self):
+        '''
         val = 1
         while (val*self.e)%self.phi != 1:
             val += 1
+        print "about to return D"
         return val
+        '''
+        return modinv(self.e, self.phi)
 
-    def F(self, file, base):
+    def F(self, file, base, size):
         '''
         converting file to numbers
         '''
@@ -76,13 +80,19 @@ class Encoder:
         # opening file
         f = open(file, "rb")
         n = 0
-
+        buffer = []
         byte = f.read(1)
         while byte:
             n = (n*base) + ord(byte)
+            if n > size:
+                buffer.append(n)
+                n = 0
             byte = f.read(1)
 
-        return n
+        if len(buffer) == 0:
+            return (False, n)
+
+        return (True, buffer)
 
     def inverseF(self, num, base):
         '''
@@ -113,22 +123,43 @@ class Encoder:
             return
 
         # opening file and creating buffer
-        number = self.F(self.file, 300)
-        #content = self.inverseF(number, 300)   
+        flag, number = self.F(self.file, 300, self.n)
 
-        self.message = pow(number, self.e)%self.n
+        if flag:
+            # abbiamo una lista di numeri di merda
+            print number
+            self.C = []
+            for n in number:
+                temp = long(float(n)) ** long(float(self.e))
+                self.C.append(temp%long(float(self.n)))
+        else:
+            self.C = pow(number, self.e)%self.n
+            #content = self.inverseF(number, 300)   
 
-        print "number: ", number
-        print "message: ", self.message
-        print "crypted: ", self.inverseF(self.message, 300)
+            print "number: ", number
+            print "message: ", self.C
+            print "crypted: ", self.inverseF(self.C, 300)
 
-    def decode(self):
+        # INVIO DEL MESSAGGIO DI MERDA.
 
-        temp = long(float(self.message)) ** self.d#pow(long(self.message), self.d)
-        self.decoded = temp%int(self.n)
 
-        print self.decoded
-        print self.inverseF(self.decoded, 300)
+    def decode(self, message):
+
+        n, d = self.privkey
+        if isinstance(message, list):
+            # parsing every part of message
+            for m in message:
+                temp = long(float(m)) ** d#pow(long(self.message), d)
+                self.M = temp%int(n)
+
+                print self.M
+                print self.inverseF(self.M, 300)
+        else:
+            temp = long(float(message)) ** d#pow(long(self.message), d)
+            self.M = temp%int(n)
+
+            print self.M
+            print self.inverseF(self.M, 300)
 
 
 
