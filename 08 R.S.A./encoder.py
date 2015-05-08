@@ -124,7 +124,8 @@ class Encoder:
 
     def decode(self):
 
-        self.decoded = pow(self.message, self.d)%self.n
+        temp = long(float(self.message)) ** self.d#pow(long(self.message), self.d)
+        self.decoded = temp%int(self.n)
 
         print self.decoded
         print self.inverseF(self.decoded, 300)
