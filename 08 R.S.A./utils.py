@@ -2,41 +2,33 @@ from math import *
 from fractions import gcd
 from random import *
 
-def fileToNum(file, base):
+def F(file, base, size):
     '''
     converting file to numbers
     '''
 
     # opening file
     f = open(file, "rb")
-    '''
-    value = ""
-
-    byte = f.read(1)
-    while byte:
-        value += str(ord(byte))
-        byte = f.read(1)
-
-    res = 0
-    for i in range(len(value)):
-        res += int(value[i]) * (int(base)**(len(value) - i - 1))
-
-    #joined = "".join([str(el) for el in value])
-    # returning value
-    return res
-    '''
     n = 0
-
+    buffer = []
     byte = f.read(1)
     while byte:
         n = (n*base) + ord(byte)
+        if n > size:
+            buffer.append(n)
+            n = 0
         byte = f.read(1)
+    # appending last chunk
+    buffer.append(n)
 
-    return n
+    if len(buffer) == 1:
+        return (False, buffer[0])
 
-def NumToText(num, base):
+    return (True, buffer)
+
+def inverseF(num, base):
     '''
-        reverse function of fileToNum
+        reverse function of F
     '''
 
     value = []
@@ -51,7 +43,6 @@ def NumToText(num, base):
 
     # returning the old content
     return "".join(value[::-1])
-
 '''
 def getGCD(v1, v2):
     # trovo il massimo comune divisore
@@ -83,10 +74,10 @@ def getCoprime(phi, max=100):
     return buffer[random.randint()]
     '''
 
-    e = randint(phi - (phi//100), phi)
+    e = randint(3, phi)#randint(phi - (phi//100), phi)
 
     while gcd(e, phi) != 1:
-        e = randint(phi - (phi//100), phi)
+        e = randint(3, phi)#randint(phi - (phi//100), phi)
 
     return (True, e)
 

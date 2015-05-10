@@ -76,24 +76,31 @@ class Encoder:
         '''
         converting file to numbers
         '''
-
+        print "size: ", size
         # opening file
         f = open(file, "rb")
-        n = 0
+        n = long(0)
         buffer = []
         byte = f.read(1)
         while byte:
-            n = (n*base) + ord(byte)
+            n = long((n*base) + ord(byte))
             if n > size:
+                print "appending n: ", n
                 buffer.append(n)
                 n = 0
+            else:
+                print "still low size, n: ", n
             byte = f.read(1)
         # appending last chunk
         buffer.append(n)
 
         if len(buffer) == 1:
             return (False, buffer[0])
-
+        else:
+            if buffer[1] == 0:
+                return (False, buffer[0])
+            elif 0 in buffer:
+                return (True, buffer[:buffer.index(0)])
         return (True, buffer)
 
     def inverseF(self, num, base):
@@ -102,12 +109,12 @@ class Encoder:
         '''
 
         value = []
-        res = int(num)
-        b = int(base)
+        res = num #int(num)
+        b = base#int(base)
 
         while res != 0:
             # prendo il resto tra res e base
-            resto = res%b
+            resto = int(res%b)
             value.append(chr(resto))
             res = (res - resto)/b
 
@@ -125,30 +132,30 @@ class Encoder:
             return
 
         # opening file and creating buffer
-        flag, number = self.F(self.file, 300, self.n)
+        flag, number = self.F(self.file, 256, self.n)
 
         if flag:
             # abbiamo una lista di numeri di merda
             self.C = []
             for n in number:
-                temp = long(float(n)) ** long(float(self.e))
-                message = temp%long(float(self.n))
+                temp = long(n**self.e)#long(float(n)) ** long(float(self.e))
+                message = long(temp%self.n)#temp%long(float(self.n))
                 self.C.append(message)
 
                 print "message has been splitted"
                 print "number: ", n
                 print "message: ", message
-                print "crypted: ", self.inverseF(message, 300)
+                #print "crypted: ", self.inverseF(message, 256)
         else:
-            temp = long(float(number)) ** long(float(self.e))
-            message = temp%long(float(self.n))
+            temp = long(number**self.e)#long(float(number)) ** long(float(self.e))
+            message = long(temp%self.n)#temp%long(float(self.n))
             self.C = message
-            #content = self.inverseF(number, 300)   
+            #content = self.inverseF(number, 256)   
 
             print "message not splitted"
             print "number: ", number
             print "message: ", self.C
-            print "crypted: ", self.inverseF(self.C, 300)
+            #print "crypted: ", self.inverseF(self.C, 256)
 
         # INVIO DEL MESSAGGIO DI MERDA.
 
@@ -160,17 +167,20 @@ class Encoder:
         if isinstance(message, list):
             # parsing every part of message
             for m in message:
-                temp = long(float(m)) ** long(float(d))#pow(long(self.message), d)
-                M = int(temp%long(float(n)))
+                print "m: ", m
+                print "n: ", n
+                print "d: ", d
+                temp = long(m**d)#long(float(m)) ** long(float(d))#pow(long(self.message), d)
+                M = long(temp%n)#int(temp%long(float(n)))
 
                 print M
-                print self.inverseF(M, 300)
+                print self.inverseF(M, 256)
         else:
-            temp = long(float(message)) ** d#pow(long(self.message), d)
-            self.M = temp%int(n)
+            temp = long(message**d)#long(float(message)) ** d#pow(long(self.message), d)
+            M = long(temp%n)
 
-            print self.M
-            print self.inverseF(self.M, 300)
+            print M
+            print self.inverseF(M, 256)
 
 
 
