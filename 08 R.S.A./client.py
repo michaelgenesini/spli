@@ -87,11 +87,8 @@ class Client:
             n = long((n*base) + ord(byte))
             #if n > size:
             if ((n*base) + 255) > size:
-                print "appending n: ", n
                 buffer.append(n)
                 n = 0
-            else:
-                print "still low size, n: ", n
             byte = f.read(1)
         # appending last chunk
         buffer.append(n)
@@ -122,11 +119,6 @@ class Client:
 
         # returning the old content
         return "".join(value[::-1])
-
-    def _encode(self, n):
-        temp = long(n**self.e)#long(float(n)) ** long(float(self.e))
-        message = long(temp%self.n)#temp%long(float(self.n))
-        self.C.append(message)
 
     def encode(self, pubkey):
         '''
