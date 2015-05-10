@@ -35,7 +35,7 @@ if __name__ == '__main__':
         #Encoder(filename, len).encode()
         e = Encoder(filename, len)
         e.encode()
-        e.decode()
+        e.decode(e.C)
     elif mode == 'decode':
         key = sys.argv[3]
         print 'Decoding ...'

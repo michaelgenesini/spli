@@ -88,9 +88,11 @@ class Encoder:
                 buffer.append(n)
                 n = 0
             byte = f.read(1)
+        # appending last chunk
+        buffer.append(n)
 
-        if len(buffer) == 0:
-            return (False, n)
+        if len(buffer) == 1:
+            return (False, buffer[0])
 
         return (True, buffer)
 
@@ -127,15 +129,23 @@ class Encoder:
 
         if flag:
             # abbiamo una lista di numeri di merda
-            print number
             self.C = []
             for n in number:
                 temp = long(float(n)) ** long(float(self.e))
-                self.C.append(temp%long(float(self.n)))
+                message = temp%long(float(self.n))
+                self.C.append(message)
+
+                print "message has been splitted"
+                print "number: ", n
+                print "message: ", message
+                print "crypted: ", self.inverseF(message, 300)
         else:
-            self.C = pow(number, self.e)%self.n
+            temp = long(float(number)) ** long(float(self.e))
+            message = temp%long(float(self.n))
+            self.C = message
             #content = self.inverseF(number, 300)   
 
+            print "message not splitted"
             print "number: ", number
             print "message: ", self.C
             print "crypted: ", self.inverseF(self.C, 300)
@@ -145,15 +155,16 @@ class Encoder:
 
     def decode(self, message):
 
+        print "inside decode"
         n, d = self.privkey
         if isinstance(message, list):
             # parsing every part of message
             for m in message:
-                temp = long(float(m)) ** d#pow(long(self.message), d)
-                self.M = temp%int(n)
+                temp = long(float(m)) ** long(float(d))#pow(long(self.message), d)
+                M = int(temp%long(float(n)))
 
-                print self.M
-                print self.inverseF(self.M, 300)
+                print M
+                print self.inverseF(M, 300)
         else:
             temp = long(float(message)) ** d#pow(long(self.message), d)
             self.M = temp%int(n)
