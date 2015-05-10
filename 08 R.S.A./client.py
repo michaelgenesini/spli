@@ -1,6 +1,7 @@
 from utils import *
+from threading import Thread
 
-class Encoder:
+class Client:
 
     def __init__(self, file, numbit):
         '''
@@ -84,7 +85,8 @@ class Encoder:
         byte = f.read(1)
         while byte:
             n = long((n*base) + ord(byte))
-            if n > size:
+            #if n > size:
+            if ((n*base) + 255) > size:
                 print "appending n: ", n
                 buffer.append(n)
                 n = 0
@@ -121,15 +123,20 @@ class Encoder:
         # returning the old content
         return "".join(value[::-1])
 
-    def encode(self):
+    def _encode(self, n):
+        temp = long(n**self.e)#long(float(n)) ** long(float(self.e))
+        message = long(temp%self.n)#temp%long(float(self.n))
+        self.C.append(message)
+
+    def encode(self, pubkey):
         '''
             RSA encoding
 
             - leggo il file
             - creo un buffer convertendo tutto il fottuto file in numeri
         '''
-        if self.gotError:
-            return
+        # getting values with pubkey
+        e, n = pubkey
 
         # opening file and creating buffer
         flag, number = self.F(self.file, 256, self.n)
@@ -137,6 +144,7 @@ class Encoder:
         if flag:
             # abbiamo una lista di numeri di merda
             self.C = []
+            threads = []
             for n in number:
                 temp = long(n**self.e)#long(float(n)) ** long(float(self.e))
                 message = long(temp%self.n)#temp%long(float(self.n))
@@ -167,19 +175,19 @@ class Encoder:
         if isinstance(message, list):
             # parsing every part of message
             for m in message:
-                print "m: ", m
-                print "n: ", n
-                print "d: ", d
+                #print "m: ", m
+                #print "n: ", n
+                #print "d: ", d
                 temp = long(m**d)#long(float(m)) ** long(float(d))#pow(long(self.message), d)
                 M = long(temp%n)#int(temp%long(float(n)))
 
-                print M
+                #print M
                 print self.inverseF(M, 256)
         else:
             temp = long(message**d)#long(float(message)) ** d#pow(long(self.message), d)
             M = long(temp%n)
 
-            print M
+            #print M
             print self.inverseF(M, 256)
 
 

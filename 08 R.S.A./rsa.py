@@ -4,6 +4,7 @@ import random
 
 from decoder import Decoder
 from encoder import Encoder
+from client import Client
 
 if __name__ == '__main__':
 
@@ -33,8 +34,8 @@ if __name__ == '__main__':
     if mode == 'encode':
         print 'Encoding ...'
         #Encoder(filename, len).encode()
-        e = Encoder(filename, len)
-        e.encode()
+        e = Client(filename, len)
+        e.encode(e.pubkey)
         e.decode(e.C)
     elif mode == 'decode':
         key = sys.argv[3]
