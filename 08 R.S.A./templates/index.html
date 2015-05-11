@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RSA</title>
+		{{include_static 'css/bootstrap.min.css'}}
+		{{include_static 'css/bootstrap-theme.min.css'}}
+		{{include_static 'css/style.css'}}
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h1>{{=title}}</h1>
+					<br>
+					<input type="text" name="filename" id="filename" placeholder="Filename"><br>
+					<input type="text" name="len" id="len" placeholder="Key Len"><br>
+					<a href="/encode/filename/len">Encode</a>
+				</div>
+			</div>
+		</div>
+		{{include_static 'js/jquery.js'}}
+		{{include_static 'js/bootstrap.min.js'}}
+	</body>
+</html>
