@@ -1,5 +1,5 @@
 from utils import *
-from threading import Thread
+from bitarray import bitarray
 
 class Client:
 
@@ -21,17 +21,18 @@ class Client:
         self.file = file
         # storing info for keys
         self.numbit = int(numbit)
-        self.primeLength = int(self.numbit/2)
+        self.primeLength = int(self.numbit)#/2)
         # creating prime numbers
         try:
-            from pyprimes import primes_above
+            from pyprimes import primes_above, prime_count
 
             # creating reference min value and max value
             minValue = int("1".ljust(self.primeLength, "0"))
             maxValue = int("9".ljust(self.primeLength, "9"))
 
+            numprimes = prime_count(maxValue) - prime_count(minValue)
             iterator = primes_above(minValue)
-            primesList = [next(iterator) for num in range(minValue, maxValue)]
+            primesList = [next(iterator) for num in range(0, numprimes)]
 
             # creatint p and q
             ref = int(round(len(primesList)/3))
@@ -77,9 +78,11 @@ class Client:
         '''
         converting file to numbers
         '''
-        print "size: ", size
         # opening file
         f = open(file, "rb")
+        # reading header
+        #header = f.read(18)
+        # now only body
         n = long(0)
         buffer = []
         byte = f.read(1)
@@ -95,11 +98,13 @@ class Client:
 
         if len(buffer) == 1:
             return (False, buffer[0])
+        '''
         else:
             if buffer[1] == 0:
                 return (False, buffer[0])
             elif 0 in buffer:
                 return (True, buffer[:buffer.index(0)])
+        '''
         return (True, buffer)
 
     def inverseF(self, num, base):
@@ -114,11 +119,12 @@ class Client:
         while res != 0:
             # prendo il resto tra res e base
             resto = int(res%b)
-            value.append(chr(resto))
+            #print "resto: ", resto
+            value.append(bin(resto)[2:])
             res = (res - resto)/b
 
         # returning the old content
-        return "".join(value[::-1])
+        return bitarray("".join(value[::-1]))
 
     def encode(self, pubkey):
         '''
@@ -131,7 +137,10 @@ class Client:
         e, n = pubkey
 
         # opening file and creating buffer
-        flag, number = self.F(self.file, 256, self.n)
+        flag, number = self.F(self.file, 257, self.n)
+        #f = open("encoded.jpg", "wb")
+        # writing header first
+        #f.write(self.header)
 
         if flag:
             # abbiamo una lista di numeri di merda
@@ -140,47 +149,53 @@ class Client:
             for n in number:
                 temp = long(n**self.e)#long(float(n)) ** long(float(self.e))
                 message = long(temp%self.n)#temp%long(float(self.n))
+                #print self.inverseF(message, 257)
+                #f.write(self.inverseF(message, 257))
+                #print "..\r"
                 self.C.append(message)
-
-                print "message has been splitted"
-                print "number: ", n
-                print "message: ", message
-                #print "crypted: ", self.inverseF(message, 256)
         else:
             temp = long(number**self.e)#long(float(number)) ** long(float(self.e))
             message = long(temp%self.n)#temp%long(float(self.n))
             self.C = message
-            #content = self.inverseF(number, 256)   
 
-            print "message not splitted"
-            print "number: ", number
-            print "message: ", self.C
-            #print "crypted: ", self.inverseF(self.C, 256)
-
-        # INVIO DEL MESSAGGIO DI MERDA.
+        #f.close()
 
 
     def decode(self, message):
 
+        outfile = open("decoded.txt", "wb")
+        # writing header
+        #outfile.write(self.header)
+
         print "inside decode"
         n, d = self.privkey
+        buffer = []
         if isinstance(message, list):
             # parsing every part of message
             for m in message:
-                #print "m: ", m
-                #print "n: ", n
-                #print "d: ", d
                 temp = long(m**d)#long(float(m)) ** long(float(d))#pow(long(self.message), d)
                 M = long(temp%n)#int(temp%long(float(n)))
-
-                #print M
-                print self.inverseF(M, 256)
+                print "temp: ", temp
+                print "d: ", d
+                print "M: ", M
+                print "m: ", m
+                print "n: ", n
+                sys.exit(1)
+                buffer.append(M)
+                # print to file
+                #print self.inverseF(M, 257).decode("hex")
+                #print "__\r"
+                #outfile.write(self.inverseF(M, 257))
         else:
             temp = long(message**d)#long(float(message)) ** d#pow(long(self.message), d)
             M = long(temp%n)
-
-            #print M
-            print self.inverseF(M, 256)
+            # print to file
+            buffer.append(M)
+            #outfile.write(self.inverseF(M, 257))
+        print "stampo su file.."
+        for b in buffer:
+            outfile.write(self.inverseF(b, 257))
+        outfile.close()
 
 
 
