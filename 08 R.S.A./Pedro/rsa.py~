@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     # selected filename
     filename = sys.argv[2]
-    len = sys.argv[3]
+    len = sys.argv[3]+1
 
     # check if file exists
     if not os.path.isfile(filename):

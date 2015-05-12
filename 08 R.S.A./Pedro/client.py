@@ -50,7 +50,7 @@ class Client:
                 if pow(256,i)>self.n:
                     self.chunks = i-1
                     break
-            print("chunks: ", self.chunks)
+            print("Chunks: ", self.chunks)
 
             # choosing e
             flag, self.e = getCoprime(self.phi)
@@ -88,7 +88,7 @@ class Client:
         # opening file
         f = open(file, "rb")
         # reading header
-        #header = f.read(18)
+        self.header = f.read(18)
         # now only body
         #n = 0
         buffer = []
@@ -126,7 +126,7 @@ class Client:
                 return (True, buffer[:buffer.index(0)])
         '''
         f.close()
-        return (True, buffer)
+        return (True, self.header, buffer)
 
     def inverseF(self, num, base):
         '''
@@ -147,7 +147,7 @@ class Client:
         # returning the old content
         return "".join(value[::-1])
         '''
-        byte = num.to_bytes(self.chunks, "big")
+        byte = num.to_bytes(base, "big")
         return byte
 
     def encode(self, pubkey):
@@ -157,14 +157,16 @@ class Client:
             - leggo il file
             - creo un buffer convertendo tutto il fottuto file in numeri
         '''
+        
         # getting values with pubkey
         e, n = pubkey
 
         # opening file and creating buffer
-        flag, number = self.F(self.file, 256, self.n)
-        #f = open("encoded.jpg", "wb")
+        flag, header, number = self.F(self.file, 256, self.n)
+        f = open("encoded.tga", "wb")
         # writing header first
-        #f.write(self.header)
+        #print("header: ", header)
+        f.write(self.header)
 
         if flag:
             # abbiamo una lista di numeri di merda
@@ -175,23 +177,24 @@ class Client:
                 #message = long(temp%self.n)#temp%long(float(self.n))
                 message = pow(n, self.e, self.n)
                 #print(self.inverseF(message, 257))
-                #f.write(self.inverseF(message, 257))
+                f.write(self.inverseF(message, self.chunks+1))
                 #print("..\r")
                 self.C.append(message)
+                
         else:
             temp = long(number**self.e)#long(float(number)) ** long(float(self.e))
             message = long(temp%self.n)#temp%long(float(self.n))
             self.C = message
 
-        #f.close()
+        f.close()
 
 
     def decode(self, message):
 
-        outfile = open("decoded.jpg", "wb")
+        outfile = open("decoded.tga", "wb")
         # writing header
-        #outfile.write(self.header)
-
+        outfile.write(self.header)
+        
         print("inside decode")
         n, d = self.privkey
         buffer = []
@@ -219,7 +222,7 @@ class Client:
             #outfile.write(self.inverseF(M, 257))
         print("stampo su file..")
         for b in buffer:
-            outfile.write(self.inverseF(b, 256))
+            outfile.write(self.inverseF(b, self.chunks))
         outfile.close()
 
 
