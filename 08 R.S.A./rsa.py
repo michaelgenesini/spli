@@ -42,9 +42,8 @@ if __name__ == '__main__':
         print('Decoding ...')
         Decoder(filename, len).decode()
     elif mode == 'bruteforce':
-        if len(sys.argv) < 2:
-            print("python rsa.py bruteforce filename len md5")
-            sys.exit(0)
         #selected key
         key_len = sys.argv[3]
-        Bruteforce("encoded.tga", key_len, e.md5)
+        e = Client(filename, len)
+        e.encode(e.pubkey)
+        e.bruteforce(e.C, key_len, e.md5)
