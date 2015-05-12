@@ -1,5 +1,6 @@
 from weppy import App
 from client import Client
+import subprocess
 
 app = App(__name__)
 
@@ -9,16 +10,18 @@ def index():
 	data = {'title': title}
 	return data
 
-@app.expose("/encode/<str:filename>/<int:len>")
-def rsa(filename,len):
+@app.expose("/encode/<str:filename>/<int:lenk>")
+def rsa(filename,lenk):
 	title = 'R.S.A.'
 	print 'Encoding ...'
 	print 'Filename: ',filename
-	print 'Len Key: ',len
-	e = Client(filename, len)
-	e.encode(e.pubkey)
-	e.decode(e.C)
-	data = {'title': title, 'p': e.p, 'q': e.q, 'n': e.n}
+	print 'Len Key: ',lenk
+	cmd = ["python3","rsa.py", "encode", filename, lenk]
+	print 'TEST: ', cmd
+	p = subprocess.Popen(cmd,stdout = subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE)
+	out,err = p.communicate()
+	title = 'R.S.A.'
+	data = {'title': title, 'out': out, 'err': err}
 	return data
 
 @app.expose("/decode")

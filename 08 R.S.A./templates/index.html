@@ -14,11 +14,23 @@
 					<br>
 					<input type="text" name="filename" id="filename" placeholder="Filename"><br>
 					<input type="text" name="len" id="len" placeholder="Key Len"><br>
-					<a href="/encode/filename/len">Encode</a>
+					<button onclick="submit()">Encode</button> 
 				</div>
 			</div>
 		</div>
 		{{include_static 'js/jquery.js'}}
 		{{include_static 'js/bootstrap.min.js'}}
+		<script type="text/javascript">
+			function submit () {
+				var f = $('#filename').val();
+				var l = $('#len').val();
+				if(f != '' && l != ''){
+					location.href+="encode/"+f+"/"+l;
+				}else{
+					alert('Missing Params!');
+				}
+				
+			}
+		</script>
 	</body>
 </html>
