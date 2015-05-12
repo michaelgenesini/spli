@@ -1,6 +1,7 @@
 #from math import *
 from fractions import gcd
 from random import *
+import hashlib
 
 def F(file, base, size):
     '''
@@ -94,6 +95,13 @@ def modinv(a, m):
         return None  # modular inverse does not exist
     else:
         return x % m
+
+def get_md5_file(file):
+	f = open(file, "rb")
+	m = hashlib.md5()
+	m.update(f.read())
+	f.close()
+	return m.hexdigest()
 
 
 

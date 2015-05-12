@@ -1,5 +1,6 @@
 from utils import *
 #from bitarray import *
+import itertools
 
 class Client:
 
@@ -18,6 +19,7 @@ class Client:
         print(" d -> ")
         print("---------------------------------------------")
         # storing file
+        self.md5 = get_md5_file("Lena.tga")
         self.file = file
         # storing info for keys
         self.numbit = int(numbit)
@@ -50,7 +52,7 @@ class Client:
                 if pow(256,i)>self.n:
                     self.chunks = i-1
                     break
-            print("chunks: ", self.chunks)
+            print("Chunks: ", self.chunks)
 
             # choosing e
             flag, self.e = getCoprime(self.phi)
@@ -225,5 +227,56 @@ class Client:
             outfile.write(self.inverseF(b, self.chunks))
         outfile.close()
 
+    def init_calc(p, q):
+        # creating mod and product
+        self.chunks = 0
+        self.n = p * q
+        self.phi = (p-1) * (q-1)
+        print("N:", self.n, " PHI: ", self.phi)
 
+        for i in range(0,10):
+            if pow(256,i)>self.n:
+                self.chunks = i-1
+                break
+        print("Chunks: ", self.chunks)
+
+        # choosing e
+        flag, self.e = getCoprime(self.phi)
+        print("E: ", self.e)
+
+        if flag:
+            # choosing d
+            self.d = self.getD()
+            print("D: ", self.d)
+
+            # salviamo chiave pubblica e privata
+            self.pubkey = (self.n, self.e)
+            self.privkey = (self.n, self.d)
+
+
+    def bruteforce(self, file, numbit, md5):
+
+        self.file = file
+        # storing info for keys
+        self.numbit = int(numbit)
+        self.primeLength = int(self.numbit)#/2)
+        # creating prime numbers
+        try:
+            from pyprimes import primes, prime_count
+
+            # creating reference min value and max value
+            minValue = int("1".ljust(self.primeLength, "0"))
+            maxValue = int("9".ljust(self.primeLength, "9"))
+
+            numprimes = prime_count(maxValue) - prime_count(minValue)
+            iterator = primes(minValue, maxValue)
+            primesList = [next(iterator) for num in range(0, numprimes)]
+
+            combinationlist = list(itertools.combinations(primesList, 2))
+            init_calc(p, q)
+            self.gotError = False
+        except Exception as e:
+            print("Yo, missing pyprimes! run 'pip install pyprimes'")
+            self.gotError = True
+            raise
 

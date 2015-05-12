@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     # selected filename
     filename = sys.argv[2]
-    len = sys.argv[3]+1
+    len = sys.argv[3]
 
     # check if file exists
     if not os.path.isfile(filename):
@@ -42,9 +42,9 @@ if __name__ == '__main__':
         print('Decoding ...')
         Decoder(filename, len).decode()
     elif mode == 'bruteforce':
-        if len(sys.argv) < 4:
-            print("python rsa.py bruteforce filename md5")
+        if len(sys.argv) < 2:
+            print("python rsa.py bruteforce filename len md5")
             sys.exit(0)
         #selected key
-        md5 = sys.argv[3] 
-        Bruteforce(filename, chunk_len,key_len, md5, times).guess()
+        key_len = sys.argv[3]
+        Bruteforce("encoded.tga", key_len, e.md5)
