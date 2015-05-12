@@ -165,7 +165,7 @@ class Client:
 
         # opening file and creating buffer
         flag, header, number = self.F(self.file, 256, self.n)
-        f = open("encoded.tga", "wb")
+        f = open("static/encoded.tga", "wb")
         # writing header first
         #print("header: ", header)
         f.write(self.header)
@@ -193,7 +193,7 @@ class Client:
 
     def decode(self, message):
 
-        outfile = open("decoded.tga", "wb")
+        outfile = open("static/decoded.tga", "wb")
         # writing header
         outfile.write(self.header)
         
