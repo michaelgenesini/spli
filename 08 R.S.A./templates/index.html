@@ -11,10 +11,21 @@
 			<div class="row">
 				<div class="col-md-12 text-center">
 					<h1>{{=title}}</h1>
+				</div>
+				<div class="col-md-4 col-md-offset-4 text-center">
 					<br>
-					<input type="text" name="filename" id="filename" placeholder="Filename"><br>
-					<input type="text" name="len" id="len" placeholder="Key Len"><br>
-					<button onclick="submit()">Encode</button> 
+					<div class="form-group">
+						<label for="exampleInputEmail1">Filename</label>
+						<input type="email" class="form-control" id="filename" placeholder="Enter filename with extension">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Len</label>
+						<input type="email" class="form-control" id="len" placeholder="Enter len of th key">
+					</div>
+					<button class="btn btn-default" onclick="submit()">Encode</button> 
+					<br>
+					<br>
+					<button class="btn btn-default" onclick="submit_bruteforce()">Encode Bruteforce</button> 
 				</div>
 			</div>
 		</div>
@@ -26,6 +37,15 @@
 				var l = $('#len').val();
 				if(f != '' && l != ''){
 					location.href+="encode/"+f+"/"+l;
+				}else{
+					alert('Missing Params!');
+				}
+			}
+			function submit_bruteforce () {
+				var f = $('#filename').val();
+				var l = $('#len').val();
+				if(f != '' && l != ''){
+					location.href+="bruteforce/"+f+"/"+l;
 				}else{
 					alert('Missing Params!');
 				}
