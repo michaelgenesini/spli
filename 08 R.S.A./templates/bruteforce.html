@@ -13,6 +13,16 @@
 					<h1>{{=title}}</h1>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					{{for s in out:}}
+					<p>{{=s}}</p>
+					{{pass}}
+					<br>
+					<br>
+					<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/bruteforce.tga')}}" alt="bruteforce.tga">
+				</div>
+			</div>
 		</div>
 		{{include_static 'js/jquery.js'}}
 		{{include_static 'js/bootstrap.min.js'}}

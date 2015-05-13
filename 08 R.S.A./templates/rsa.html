@@ -28,10 +28,8 @@
 							<p>Immagine Originale</p>
 							<img class="img-responsive img-thumbnail" src="/static/imgs/{{=filename}}">
 							<br>
-							{{for s in out:}}
-							<p>{{=s}}</p>
-							{{pass}}
-							<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/encoded.tga')}}">
+							<br>
+							<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/encoded.tga')}}" alt="encoded.tga">
 							<br>
 							<p>Invio immagine criptata</p>
 							<p>---></p>
@@ -39,8 +37,9 @@
 						</div>
 						<div class="col-md-6">
 							<p>Chiave Pubblica</p>
-							<p><--- (e,n)</p>
-							<br>
+							{{for s in out:}}
+							<p>{{=s}}</p>
+							{{pass}}
 						</div>
 					</div>
 				</div>
@@ -50,12 +49,12 @@
 					<div class="row text-center">
 						<div class="col-md-6 col-md-offset-6 border-left">
 							<div class="row">
-								<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/encoded.tga')}}">
+								<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/encoded.tga')}}" alt="encoded.tga">
 								<br>
 								<p>Chiave Privata</p>
 								<p>(d,n)</p>
 								<br>
-								<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/decoded.tga')}}">
+								<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/decoded.tga')}}" alt="decoded.tga">
 							</div>
 						</div>
 					</div>
