@@ -14,9 +14,9 @@ def index():
 def rsa(filename,lenk):
 	title = 'R.S.A.'
 	temp = open("temp", "wb")
-	temp.write("static/imgs/"+filename)
+	temp.write(filename)
 	temp.write('\n')
-	temp.write(''+lenk)
+	temp.write(str(lenk))
 	temp.close()
 	out, err = encode(filename,lenk)
 	title = 'R.S.A.'
@@ -30,7 +30,7 @@ def bruteforce():
 	f = temp.readline()
 	l = temp.readline()
 	temp.close()
-	out, err = bruteforce(filename,lenk)
+	out, err = bruteforce(f,l)
 	data = {'title': title, 'out': [s.strip() for s in out.splitlines()], 'err': [s.strip() for s in err.splitlines()]}
 	return data
 
@@ -44,8 +44,9 @@ def encode(filename, lenk):
 
 def bruteforce(filename, lenk):
 	pathtofile = "static/imgs/"+filename
-	print pathtofile
-	cmd = ["python3","rsa.py", "bruteforce", pathtofile, lenk]
+	print pathtofile.splitlines()[0]
+	cmd = ["python3","rsa.py", "bruteforce", pathtofile.splitlines()[0], str(lenk)]
+	print cmd
 	p = subprocess.Popen(cmd,stdout = subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE)
 	out,err = p.communicate()
 	return (out, err)

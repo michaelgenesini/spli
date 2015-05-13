@@ -13,11 +13,14 @@
 					<h1>{{=title}}</h1>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
+			<div class="row text-center">
+				<div class="col-md-6">
 					{{for s in out:}}
 					<p>{{=s}}</p>
 					{{pass}}
+				</div>
+				<div class="col-md-6">
+					<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/encoded.tga')}}" alt="encoded.tga">
 					<br>
 					<br>
 					<img class="img-responsive img-thumbnail" src="{{=url('static', 'imgs/bruteforce.tga')}}" alt="bruteforce.tga">

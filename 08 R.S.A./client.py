@@ -16,7 +16,6 @@ class Client:
         print(" n = p * q")
         print(" phi = (p - 1) * (q - 1)")
         print(" e -> 1 < e < phi(n), GCD(e, phi) = 1")
-        print(" d -> ")
         print("---------------------------------------------")
 
         self.md5 = get_md5_file(file)
@@ -41,28 +40,33 @@ class Client:
             ref = int(round(len(primesList)/3))
             self.p = primesList[ref]
             self.q = primesList[-ref]
-            print("P: ", self.p, " Q:", self.q)
+            print("P: ", self.p)
+            print("Q:", self.q)
 
             # creating mod and product
             self.chunks = 0
             self.n = self.p * self.q
             self.phi = (self.p-1) * (self.q-1)
-            print("N:", self.n, " PHI: ", self.phi)
+            print("PHI: ", self.phi)
 
             for i in range(0,10):
                 if pow(256,i)>self.n:
                     self.chunks = i-1
                     break
-            print("Chunks: ", self.chunks)
+            print("Chunks (numbers of bytes): ", self.chunks)
 
             # choosing e
             flag, self.e = getCoprime(self.phi)
+            print("\nPublic Key")
             print("E: ", self.e)
+            print("N:", self.n)
 
             if flag:
                 # choosing d
                 self.d = self.getD()
+                print("Private Key")
                 print("D: ", self.d)
+                print("N:", self.n)
 
                 # salviamo chiave pubblica e privata
                 self.pubkey = (self.n, self.e)
@@ -197,8 +201,6 @@ class Client:
         outfile = open("static/imgs/decoded.tga", "wb")
         # writing header
         outfile.write(self.header)
-
-        print("inside decode")
         n, d = self.privkey
         buffer = []
         if isinstance(message, list):
@@ -223,7 +225,6 @@ class Client:
             # print(to file)
             buffer.append(M)
             #outfile.write(self.inverseF(M, 257))
-        print("stampo su file..")
         for b in buffer:
             outfile.write(self.inverseF(b, self.chunks))
         outfile.close()
@@ -302,7 +303,6 @@ class Client:
             outfile.close()
             #if get_md5_file(outfile.name) == self.md5:
             print("TROVATO! chiave: ", self.privkey)
-            print("stampo su file..")
 
             self.gotError = False
         except Exception as e:
