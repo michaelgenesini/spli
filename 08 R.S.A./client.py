@@ -19,7 +19,7 @@ class Client:
         print(" d -> ")
         print("---------------------------------------------")
 
-        self.md5 = get_md5_file("Lena.tga")
+        #self.md5 = get_md5_file("Lena.tga")
         # storing file
         self.file = file
         # storing info for keys
@@ -167,7 +167,7 @@ class Client:
 
         # opening file and creating buffer
         flag, header, number = self.F(self.file, 256, self.n)
-        f = open("static/encoded.tga", "wb")
+        f = open("static/imgs/encoded.tga", "wb")
         # writing header first
         #print("header: ", header)
         f.write(self.header)
@@ -195,7 +195,7 @@ class Client:
 
     def decode(self, message):
 
-        outfile = open("static/decoded.tga", "wb")
+        outfile = open("static/imgs/decoded.tga", "wb")
         # writing header
         outfile.write(self.header)
 
@@ -281,7 +281,7 @@ class Client:
                 self.init_calc(p, q)
                 if (self.n < 256):
                     continue
-                outfile = open("static/bruteforce.tga", "wb")
+                outfile = open("static/imgs/bruteforce.tga", "wb")
                 # writing header
                 outfile.write(self.header)
 
