@@ -24,8 +24,6 @@
 					</div>
 					<button class="btn btn-default" onclick="submit()">Encode</button> 
 					<br>
-					<br>
-					<button class="btn btn-default" onclick="submit_bruteforce()">Encode Bruteforce</button> 
 				</div>
 			</div>
 		</div>
@@ -40,16 +38,6 @@
 				}else{
 					alert('Missing Params!');
 				}
-			}
-			function submit_bruteforce () {
-				var f = $('#filename').val();
-				var l = $('#len').val();
-				if(f != '' && l != ''){
-					location.href+="bruteforce/"+f+"/"+l;
-				}else{
-					alert('Missing Params!');
-				}
-				
 			}
 		</script>
 	</body>
