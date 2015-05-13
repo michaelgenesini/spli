@@ -43,7 +43,6 @@ if __name__ == '__main__':
         Decoder(filename, len).decode()
     elif mode == 'bruteforce':
         #selected key
-        key_len = sys.argv[3]
         e = Client(filename, len)
         e.encode(e.pubkey)
-        e.bruteforce(e.C, key_len, e.md5)
+        e.bruteforce(e.C, e.md5)

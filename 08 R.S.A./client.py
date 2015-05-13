@@ -19,7 +19,7 @@ class Client:
         print(" d -> ")
         print("---------------------------------------------")
 
-        #self.md5 = get_md5_file("Lena.tga")
+        self.md5 = get_md5_file(file)
         # storing file
         self.file = file
         # storing info for keys
@@ -150,7 +150,6 @@ class Client:
         # returning the old content
         return "".join(value[::-1])
         '''
-        print(num)
         byte = num.to_bytes(base, "big")
         return byte
 
@@ -229,99 +228,81 @@ class Client:
             outfile.write(self.inverseF(b, self.chunks))
         outfile.close()
 
-    def init_calc(self, p, q):
-        # creating mod and product
-        print("P: ", p, "Q: ", q)
-        self.chunks = 0
-        self.n = p * q
-        self.phi = (p-1) * (q-1)
-        print("N:", self.n, " PHI: ", self.phi)
-
-        for i in range(0,10):
-            if pow(256,i)>self.n:
-                self.chunks = i-1
-                break
-        print("Chunks: ", self.chunks)
-
-        # choosing e
-        flag, self.e = getCoprime(self.phi)
-        print("E: ", self.e)
-
-        if flag:
-            # choosing d
-            self.d = self.getD()
-            print("D: ", self.d)
-            print("---------------------------------------------")
-            # salviamo chiave pubblica e privata
-            self.pubkey = (self.n, self.e)
-            self.privkey = (self.n, self.d)
-
-
-    def bruteforce(self, message, numbit, md5):
+    def bruteforce(self, message, md5):
 
         # storing info for keys
-        self.numbit = int(numbit)
-        self.primeLength = int(self.numbit)#/2)
+        self.primeLength = 7
         # creating prime numbers
         try:
             from pyprimes import primes, prime_count
 
-            # creating reference min value and max value
-            minValue = int("1".ljust(self.primeLength, "0"))
-            maxValue = int("9".ljust(self.primeLength, "9"))
+            for i in range(1, self.primeLength):
+                # creating reference min value and max value
+                minValue = int("1".ljust(i, "0"))
+                maxValue = int("9".ljust(i, "9"))
+                found = False
 
-            numprimes = prime_count(maxValue) - prime_count(minValue)
-            iterator = primes(minValue, maxValue)
-            primesList = [next(iterator) for num in range(0, numprimes)]
-            print("inizio combinations")
-            combinationlist = list(itertools.combinations(primesList, 2))
-            print("fine combinations")
-            for cl in combinationlist:
-                p, q = cl
-                self.init_calc(p, q)
-                if (self.n < 256):
-                    continue
-                outfile = open("static/imgs/bruteforce.tga", "wb")
-                # writing header
-                outfile.write(self.header)
-
-                print("inside decode")
-                n, d = self.privkey
-                buffer = []
-                if isinstance(message, list):
-                    # parsing every part of message
-                    for m in message:
-                        #temp = long(m**d)#long(float(m)) ** long(float(d))#pow(long(self.message), d)
-                        #M = long(temp%n)#int(temp%long(float(n)))
-                        M = pow(m, self.d, self.n)
-                        #print("temp: ", temp)
-                        #print("d: ", d)
-                        #print("M: ", M)
-                        #print("m: ", m)
-                        #print("n: ", n)
-                        buffer.append(M)
-                        # print(to file)
-                        #print(self.inverseF(M, 257).decode("hex"))
-                        #print("__\r")
-                        #outfile.write(self.inverseF(M, 257))
-                else:
-                    temp = long(message**d)#long(float(message)) ** d#pow(long(self.message), d)
-                    M = long(temp%n)
-                    # print(to file)
-                    buffer.append(M)
-                    #outfile.write(self.inverseF(M, 257))
-                print("stampo su file..")
-                try:
-                    for b in buffer:
-                        outfile.write(self.inverseF(b, self.chunks))
-                    outfile.close()
-                except Exception as e:
-                    print(e)
-                    outfile.close()
-                    continue
-                if get_md5_file(outfile) == self.md5:
-                    print("TROVATO! chiave: ", self.privkey)
+                numprimes = prime_count(maxValue) - prime_count(minValue)
+                iterator = primes(minValue, maxValue)
+                primesList = [next(iterator) for num in range(0, numprimes)]
+                combinationlist = list(itertools.combinations(primesList, 2))
+                for cl in combinationlist:
+                    p, q = cl
+                    if (( p * q ) == self.n):
+                        self.p, self.q = p, q
+                        found = True
+                        break
+                if found:
                     break
+
+            print("")
+            print("---------------------------------------------")
+            print("BRUTEFORCE")
+            print("---------------------------------------------")
+            print("P: ", self.p," Q: ", self.q)
+            self.phi = (self.p-1)*(self.q-1)
+            self.d = self.getD()
+            print("N: ", self.n," PHI: ", self.phi)
+            print("E: ", self.e,"D: ",self.d)
+            for i in range(0,10):
+                if pow(256,i)>self.n:
+                    self.chunks = i-1
+                    break
+            print("---------------------------------------------")
+            self.privkey = (self.n, self.d)
+
+            buffer = []
+            if isinstance(message, list):
+                # parsing every part of message
+                for m in message:
+                    #temp = long(m**d)#long(float(m)) ** long(float(d))#pow(long(self.message), d)
+                    #M = long(temp%n)#int(temp%long(float(n)))
+                    M = pow(m, self.d, self.n)
+                    #print("temp: ", temp)
+                    #print("d: ", d)
+                    #print("M: ", M)
+                    #print("m: ", m)
+                    #print("n: ", n)
+                    buffer.append(M)
+                    # print(to file)
+                    #print(self.inverseF(M, 257).decode("hex"))
+                    #print("__\r")
+                    #outfile.write(self.inverseF(M, 257))
+            else:
+                temp = long(message**d)#long(float(message)) ** d#pow(long(self.message), d)
+                M = long(temp%n)
+                # print(to file)
+                buffer.append(M)
+                #outfile.write(self.inverseF(M, 257))
+
+            outfile = open("static/imgs/bruteforce.tga", "wb")
+            outfile.write(self.header)
+            for b in buffer:
+                outfile.write(self.inverseF(b, self.chunks))
+            outfile.close()
+            #if get_md5_file(outfile.name) == self.md5:
+            print("TROVATO! chiave: ", self.privkey)
+            print("stampo su file..")
 
             self.gotError = False
         except Exception as e:
